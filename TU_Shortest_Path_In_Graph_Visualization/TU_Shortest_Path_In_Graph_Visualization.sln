@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_Visualization", "TU_Shortest_Path_In_Graph_Visualization.csproj", "{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_Vizualisation.Models", "..\TU_Shortest_Path_In_Graph_Vizualisation.Models\TU_Shortest_Path_In_Graph_Vizualisation.Models.csproj", "{109AD29E-B46C-4AED-88D3-76C430F11D4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_Visualization.IO", "..\TU_Shortest_Path_In_Graph_Visualization.IO\TU_Shortest_Path_In_Graph_Visualization.IO.csproj", "{099FC4F4-A106-4D24-920C-38B4912B9E93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{109AD29E-B46C-4AED-88D3-76C430F11D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109AD29E-B46C-4AED-88D3-76C430F11D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109AD29E-B46C-4AED-88D3-76C430F11D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109AD29E-B46C-4AED-88D3-76C430F11D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{099FC4F4-A106-4D24-920C-38B4912B9E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099FC4F4-A106-4D24-920C-38B4912B9E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099FC4F4-A106-4D24-920C-38B4912B9E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099FC4F4-A106-4D24-920C-38B4912B9E93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

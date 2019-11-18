@@ -16,7 +16,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new GraphCreator());
         }
     }
 }

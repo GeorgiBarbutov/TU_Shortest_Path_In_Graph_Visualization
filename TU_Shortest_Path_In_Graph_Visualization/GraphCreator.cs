@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TU_Shortest_Path_In_Graph_Visualization
 {
-    public partial class Form1 : Form
+    public partial class GraphCreator : Form
     {
-        public Form1()
+        public GraphCreator()
         {
             InitializeComponent();
         }
