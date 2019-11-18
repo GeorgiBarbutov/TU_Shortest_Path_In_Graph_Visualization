@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_Visualization", "TU_Shortest_Path_In_Graph_Visualization.csproj", "{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CAAF1F7-016B-46AB-8F95-F7C136354EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {018F8678-B4C8-4499-8B33-6B0B211FBA5E}
+	EndGlobalSection
+EndGlobal
