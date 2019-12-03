@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Visualization = new System.Windows.Forms.Panel();
             this.AddNodeButton = new System.Windows.Forms.Button();
             this.AddLinkButton = new System.Windows.Forms.Button();
             this.RemoveNodeButton = new System.Windows.Forms.Button();
@@ -42,19 +41,11 @@
             this.WeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.NodesLabel = new System.Windows.Forms.Label();
             this.WeightLabel = new System.Windows.Forms.Label();
+            this.Visualization = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.Node1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Node2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
             this.SuspendLayout();
-            // 
-            // Visualization
-            // 
-            this.Visualization.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Visualization.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Visualization.Location = new System.Drawing.Point(12, 12);
-            this.Visualization.Name = "Visualization";
-            this.Visualization.Size = new System.Drawing.Size(1312, 457);
-            this.Visualization.TabIndex = 0;
             // 
             // AddNodeButton
             // 
@@ -64,6 +55,7 @@
             this.AddNodeButton.TabIndex = 1;
             this.AddNodeButton.Text = "Add Node";
             this.AddNodeButton.UseVisualStyleBackColor = true;
+            this.AddNodeButton.Click += new System.EventHandler(this.AddNodeButton_Click);
             // 
             // AddLinkButton
             // 
@@ -121,7 +113,7 @@
             // 
             // SimulateAlgorithmButton
             // 
-            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(834, 590);
+            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(819, 580);
             this.SimulateAlgorithmButton.Name = "SimulateAlgorithmButton";
             this.SimulateAlgorithmButton.Size = new System.Drawing.Size(166, 59);
             this.SimulateAlgorithmButton.TabIndex = 8;
@@ -182,11 +174,23 @@
             this.WeightLabel.TabIndex = 13;
             this.WeightLabel.Text = "Weight";
             // 
+            // Visualization
+            // 
+            this.Visualization.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Visualization.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Visualization.Location = new System.Drawing.Point(13, 13);
+            this.Visualization.Margin = new System.Windows.Forms.Padding(4);
+            this.Visualization.Name = "Visualization";
+            this.Visualization.Size = new System.Drawing.Size(1310, 477);
+            this.Visualization.TabIndex = 14;
+            this.Visualization.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseClick);
+            // 
             // GraphCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1336, 746);
+            this.Controls.Add(this.Visualization);
             this.Controls.Add(this.WeightLabel);
             this.Controls.Add(this.NodesLabel);
             this.Controls.Add(this.WeightNumericUpDown);
@@ -200,7 +204,6 @@
             this.Controls.Add(this.RemoveNodeButton);
             this.Controls.Add(this.AddLinkButton);
             this.Controls.Add(this.AddNodeButton);
-            this.Controls.Add(this.Visualization);
             this.Name = "GraphCreator";
             this.Text = "Graph Creator";
             ((System.ComponentModel.ISupportInitialize)(this.Node1NumericUpDown)).EndInit();
@@ -212,8 +215,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel Visualization;
         private System.Windows.Forms.Button AddNodeButton;
         private System.Windows.Forms.Button AddLinkButton;
         private System.Windows.Forms.Button RemoveNodeButton;
@@ -227,6 +228,7 @@
         private System.Windows.Forms.NumericUpDown WeightNumericUpDown;
         private System.Windows.Forms.Label NodesLabel;
         private System.Windows.Forms.Label WeightLabel;
+        private System.Windows.Forms.Panel Visualization;
     }
 }
 

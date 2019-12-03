@@ -7,11 +7,13 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 {
     public class Node : INode
     {
-        private const float NODE_SIZE = 50f;
-        private const string LINK_NULL = "Failed to connect link with node";
+        private const float NODE_SIZE = 20f;
+        private const string NUMBER_FONT = "Arial";
+        private const int NUMBER_SIZE = 10;
+        private const float OUTLINE_WIDTH = 2f;
         private const string NEGATIVE_LAYER = "Negative layer not permited";
 
-        public Node(int nodeNumber, int layer, KeyValuePair<float, float> center)
+        public Node(int nodeNumber, int layer, PointF center)
         {
             this.NodeNumber = nodeNumber;
             this.Layer = layer;
@@ -25,15 +27,10 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public List<ILink> ConnectedLinks { get; private set; }
 
-        public KeyValuePair<float, float> Center { get; private set; }
+        public PointF Center { get; private set; }
 
-        public void AddLink(ILink link)
+        internal void AddLink(ILink link)
         {
-            if(link == null)
-            {
-                throw new ArgumentNullException("link", LINK_NULL);
-            }
-
             this.ConnectedLinks.Add(link);
         }
 
@@ -49,23 +46,50 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public bool Contains(PointF point)
         {
-            //TODO:
-            return false;
+            if ((point.X - this.Center.X) * (point.X - this.Center.X) +
+                (point.Y - this.Center.Y) * (point.Y - this.Center.Y) <= NODE_SIZE * NODE_SIZE)
+                return true;
+            else
+                return false;
         }
 
-        public void Draw(Graphics graphics)
+        public void Draw(Graphics graphics, Color color)
         {
-            //TODO:
+            Brush brush = new SolidBrush(Color.White);
+
+            graphics.FillEllipse(brush, this.Center.X - NODE_SIZE, this.Center.Y - NODE_SIZE,
+                NODE_SIZE * 2, NODE_SIZE * 2);
+
+            brush.Dispose();
+
+            Outline(graphics, color);
+            DrawNodeNumber(graphics);
+        }
+
+        private void DrawNodeNumber(Graphics graphics)
+        {
+            Font font = new Font(NUMBER_FONT, NUMBER_SIZE);
+            Brush brush = new SolidBrush(Color.Red);
+
+            graphics.DrawString(this.NodeNumber.ToString(), font, brush, this.Center.X - 7, this.Center.Y - 7);
+
+            font.Dispose();
+            brush.Dispose();
         }
 
         public void Move(float xOffset, float yOffset)
         {
-            //TODO:
+            this.Center = new PointF(this.Center.X + xOffset, this.Center.Y + yOffset);
         }
 
         public void Outline(Graphics graphics, Color color)
         {
-            //TODO:
+            Pen pen = new Pen(color, OUTLINE_WIDTH);
+
+            graphics.DrawEllipse(pen, this.Center.X - NODE_SIZE, this.Center.Y - NODE_SIZE,
+                NODE_SIZE * 2, NODE_SIZE * 2);
+
+            pen.Dispose();
         }
     }
 }
