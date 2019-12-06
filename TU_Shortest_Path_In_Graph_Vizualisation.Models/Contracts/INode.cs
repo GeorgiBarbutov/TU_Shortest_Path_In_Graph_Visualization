@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
 {
@@ -8,12 +7,10 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
         int NodeNumber { get; }
         int Layer { get; }
         IReadOnlyList<ILink> ConnectedLinks { get; }
-        PointF Center { get; }
+        IPoint Center { get; }
 
         void Move(float xOffset, float yOffset);
-        bool Contains(PointF point);
-        void Outline(Graphics graphics, Color color);
+        bool Contains(IPoint point);
         void ChangeCurrentLayer(int newLayer);
-        void Draw(Graphics graphics, Color color);
     }
 }

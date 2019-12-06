@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
 {
@@ -8,8 +7,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
         Tuple<INode, INode> ConnectedNodes { get; }
         int Weight { get; }
 
-        void Draw(Graphics graphics, Color color);
-        bool Contains(PointF point);
+        bool Contains(IPoint point);
         void ChangeWeight(int newWeight);
     }
 }

@@ -80,6 +80,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TU_Shortest_Path_In_Graph_Visualization.IO\TU_Shortest_Path_In_Graph_Visualization.IO.csproj">
+      <Project>{099FC4F4-A106-4D24-920C-38B4912B9E93}</Project>
+      <Name>TU_Shortest_Path_In_Graph_Visualization.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TU_Shortest_Path_In_Graph_Vizualisation.Drawing\TU_Shortest_Path_In_Graph_Vizualisation.Drawing.csproj">
+      <Project>{0C055298-7C8B-43DB-B0BF-E3173B04FD8A}</Project>
+      <Name>TU_Shortest_Path_In_Graph_Vizualisation.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TU_Shortest_Path_In_Graph_Vizualisation.Models\TU_Shortest_Path_In_Graph_Vizualisation.Models.csproj">
       <Project>{109AD29E-B46C-4AED-88D3-76C430F11D4F}</Project>
       <Name>TU_Shortest_Path_In_Graph_Vizualisation.Models</Name>

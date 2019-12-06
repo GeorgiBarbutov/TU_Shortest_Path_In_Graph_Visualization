@@ -9,8 +9,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TU_Shortest_Path_In_Graph_Visualization.IO;
+using TU_Shortest_Path_In_Graph_Visualization.IO.Contracts;
+using TU_Shortest_Path_In_Graph_Vizualisation.Drawing;
+using TU_Shortest_Path_In_Graph_Vizualisation.Drawing.Contracts;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
+using Point = TU_Shortest_Path_In_Graph_Vizualisation.Models.Point;
 
 namespace TU_Shortest_Path_In_Graph_Visualization
 {
@@ -19,18 +24,22 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private const int DEFAULT_CURRENT_MAX_LAYER = 0;
 
         private IGraph graph;
-        private INode selectedNode;
-        private ILink selectedLink;
+        private INodeDraw selectedNode;
+        private ILinkDraw selectedLink;
         private int currentMaxLayer;
         private Graphics graphics;
         private int mouseDownXCoordinate;
         private int mouseDownYCoordinate;
+        private IExporter exporter;
+        private IImporter importer;
 
         public GraphCreator()
         {
             InitializeComponent();
 
             this.graph = new Graph();
+            this.exporter = new Exporter();
+            this.importer = new Importer();
             this.selectedLink = null;
             this.selectedNode = null;
             this.currentMaxLayer = DEFAULT_CURRENT_MAX_LAYER;
@@ -46,26 +55,30 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             {
                 foreach (ILink link in node.ConnectedLinks)
                 {
-                    if (link == this.selectedLink)
+                    ILinkDraw linkDraw = new LinkDraw(link);
+
+                    if (this.selectedLink != null && link == this.selectedLink.Link)
                     {
-                        link.Draw(this.graphics, Color.Red);
+                        linkDraw.Draw(this.graphics, Color.Red);
                     }
                     else
                     {
-                        link.Draw(this.graphics, Color.Black);
+                        linkDraw.Draw(this.graphics, Color.Black);
                     }
                 }
             }
 
             foreach (INode node in this.graph.Nodes.OrderBy(n => n.Layer))
             {
-                if (node == this.selectedNode)
+                INodeDraw nodeDraw = new NodeDraw(node);
+
+                if (this.selectedNode != null && node == this.selectedNode.Node)
                 {
-                    node.Draw(this.graphics, Color.Red);
+                    nodeDraw.Draw(this.graphics, Color.Red);
                 }
                 else
                 {
-                    node.Draw(this.graphics, Color.Black);
+                    nodeDraw.Draw(this.graphics, Color.Black);
                 }
             }
         }
@@ -94,7 +107,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             if (this.selectedNode != null)
             {
-                this.graph.RemoveNode(this.selectedNode);
+                this.graph.RemoveNode(this.selectedNode.Node);
 
                 this.selectedNode = null;
 
@@ -109,7 +122,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
             if (e.Button == MouseButtons.Left)
             {
-                PointF cursorPosition = new PointF(e.X, e.Y);
+                IPoint cursorPosition = new Point(e.X, e.Y);
 
                 if (this.selectedNode != null)
                 {
@@ -131,10 +144,10 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                     {
                         this.currentMaxLayer += 1;
 
-                        this.selectedNode = node;
+                        this.selectedNode = new NodeDraw(node);
                         DeselectLink();
 
-                        this.selectedNode.ChangeCurrentLayer(this.currentMaxLayer);
+                        this.selectedNode.Node.ChangeCurrentLayer(this.currentMaxLayer);
 
                         this.selectedNode.Draw(this.graphics, Color.Red);
 
@@ -153,14 +166,14 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                             if (isInsideLink)
                             {
-                                this.selectedLink = link;
+                                this.selectedLink = new LinkDraw(link);
                                 this.selectedNode = null;
 
                                 this.selectedLink.Draw(this.graphics, Color.Red);
 
-                                this.Node1NumericUpDown.Value = this.selectedLink.ConnectedNodes.Item1.NodeNumber;
-                                this.Node2NumericUpDown.Value = this.selectedLink.ConnectedNodes.Item2.NodeNumber;
-                                this.WeightNumericUpDown.Value = this.selectedLink.Weight;
+                                this.Node1NumericUpDown.Value = this.selectedLink.Link.ConnectedNodes.Item1.NodeNumber;
+                                this.Node2NumericUpDown.Value = this.selectedLink.Link.ConnectedNodes.Item2.NodeNumber;
+                                this.WeightNumericUpDown.Value = this.selectedLink.Link.Weight;
 
                                 cursorIsOnAnyLinkOrNode = true;
 
@@ -194,7 +207,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             {
                 this.selectedNode.Draw(this.graphics, Color.White);
 
-                this.selectedNode.Move(e.X - this.mouseDownXCoordinate, e.Y - this.mouseDownYCoordinate);
+                this.selectedNode.Node.Move(e.X - this.mouseDownXCoordinate, e.Y - this.mouseDownYCoordinate);
 
                 this.selectedNode.Draw(this.graphics, Color.Red);
 
@@ -230,7 +243,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             if (this.selectedLink != null)
             {
-                this.graph.RemoveLink(this.selectedLink);
+                this.graph.RemoveLink(this.selectedLink.Link);
 
                 DeselectLink();
 
@@ -254,19 +267,64 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     if(!linkExists)
                     {
-                        this.graph.RemoveLink(this.selectedLink);
-                        this.selectedLink = this.graph.AddLink(newNode1, newNode2, newWeight);
+                        this.graph.RemoveLink(this.selectedLink.Link);
+                        this.selectedLink = new LinkDraw(this.graph.AddLink(newNode1, newNode2, newWeight));
 
                         RedrawPanel();
                     }
-                    else if (linkExists && newWeight != this.selectedLink.Weight)
+                    else if (linkExists && newWeight != this.selectedLink.Link.Weight)
                     {
-                        this.selectedLink.ChangeWeight(newWeight);
+                        this.selectedLink.Link.ChangeWeight(newWeight);
 
                         RedrawPanel();
                     }
                 }
             }
+        }
+
+        private void SaveGraphButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = $"{Environment.CurrentDirectory}",
+                Filter = "XML (*.xml)|*.xml"
+            };
+
+            DialogResult dialogResult = saveFileDialog.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                string path = saveFileDialog.FileName;
+
+                this.exporter.Export(graph, path);
+            }
+
+            saveFileDialog.Dispose();
+        }
+
+        private void LoadGraphButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                InitialDirectory = $"{Environment.CurrentDirectory}",
+                Filter = "XML (*.xml)|*.xml"
+            };
+
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                string path = openFileDialog.FileName;
+
+                this.graph = this.importer.Import(path, out this.currentMaxLayer);
+
+                this.selectedNode = null;
+                DeselectLink();
+
+                RedrawPanel();
+            }
+
+            openFileDialog.Dispose();
         }
     }
 }

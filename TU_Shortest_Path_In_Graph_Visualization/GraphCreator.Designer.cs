@@ -106,6 +106,7 @@
             this.LoadGraphButton.TabIndex = 6;
             this.LoadGraphButton.Text = "Load Graph";
             this.LoadGraphButton.UseVisualStyleBackColor = true;
+            this.LoadGraphButton.Click += new System.EventHandler(this.LoadGraphButton_Click);
             // 
             // SaveGraphButton
             // 
@@ -115,6 +116,7 @@
             this.SaveGraphButton.TabIndex = 7;
             this.SaveGraphButton.Text = "Save Graph";
             this.SaveGraphButton.UseVisualStyleBackColor = true;
+            this.SaveGraphButton.Click += new System.EventHandler(this.SaveGraphButton_Click);
             // 
             // SimulateAlgorithmButton
             // 

@@ -8,6 +8,8 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
         IReadOnlyList<INode> Nodes { get; }
 
         INode AddNode(int layer);
+
+        INode AddExistingNode(int layer, int nodeNumber, float centerX, float centerY);
         ILink AddLink(INode node1, INode node2, int weight);
         void RemoveNode(INode node);
         void RemoveLink(ILink link);

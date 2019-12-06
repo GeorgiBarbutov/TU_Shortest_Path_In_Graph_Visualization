@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
@@ -19,11 +17,26 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             this.CurrentNodeNumber = DEFAULT_NODE_NUMBER;
         }
 
+        public Graph(int nodeNumber)
+        {
+            this.Nodes = new List<INode>();
+            this.CurrentNodeNumber = nodeNumber;
+        }
+
         public int CurrentNodeNumber { get; private set; }
 
         public IReadOnlyList<INode> Nodes {
             get => this.nodes;
             private set => this.nodes = (List<INode>)value;
+        }
+
+        public INode AddExistingNode(int layer, int nodeNumber, float centerX, float centerY)
+        {
+            INode node = new Node(nodeNumber, layer, new Point(centerX, centerY));
+
+            this.nodes.Add(node);
+
+            return node;
         }
 
         public ILink AddLink(INode node1, INode node2, int weight)
@@ -38,7 +51,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public INode AddNode(int layer)
         {
-            INode node = new Node(this.CurrentNodeNumber, layer, new PointF(CENTER_X, CENTER_Y));
+            INode node = new Node(this.CurrentNodeNumber, layer, new Point(CENTER_X, CENTER_Y));
 
             this.nodes.Add(node);
 
