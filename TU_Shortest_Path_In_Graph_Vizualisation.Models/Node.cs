@@ -10,8 +10,11 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         private const float NODE_SIZE = 20f;
         private const string NUMBER_FONT = "Arial";
         private const int NUMBER_SIZE = 10;
+        private const int NUMBER_CENTER_OFFSET = 7;
         private const float OUTLINE_WIDTH = 2f;
         private const string NEGATIVE_LAYER = "Negative layer not permited";
+
+        private List<ILink> connectedLinks;
 
         public Node(int nodeNumber, int layer, PointF center)
         {
@@ -25,13 +28,21 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public int Layer { get; private set; }
 
-        public List<ILink> ConnectedLinks { get; private set; }
+        public IReadOnlyList<ILink> ConnectedLinks {
+            get => this.connectedLinks;
+            private set => this.connectedLinks = (List<ILink>)value;
+        }
 
         public PointF Center { get; private set; }
 
         internal void AddLink(ILink link)
         {
-            this.ConnectedLinks.Add(link);
+            this.connectedLinks.Add(link);
+        }
+
+        internal void RemoveLink(ILink link)
+        {
+            this.connectedLinks.Remove(link);
         }
 
         public void ChangeCurrentLayer(int newLayer)
@@ -63,15 +74,16 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             brush.Dispose();
 
             Outline(graphics, color);
-            DrawNodeNumber(graphics);
+            DrawNodeNumber(graphics, color);
         }
 
-        private void DrawNodeNumber(Graphics graphics)
+        private void DrawNodeNumber(Graphics graphics, Color color)
         {
             Font font = new Font(NUMBER_FONT, NUMBER_SIZE);
-            Brush brush = new SolidBrush(Color.Red);
+            Brush brush = new SolidBrush(color);
 
-            graphics.DrawString(this.NodeNumber.ToString(), font, brush, this.Center.X - 7, this.Center.Y - 7);
+            graphics.DrawString(this.NodeNumber.ToString(), font, brush, this.Center.X - NUMBER_CENTER_OFFSET,
+                this.Center.Y - NUMBER_CENTER_OFFSET);
 
             font.Dispose();
             brush.Dispose();

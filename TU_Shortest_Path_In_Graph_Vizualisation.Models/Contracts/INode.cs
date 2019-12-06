@@ -7,7 +7,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
     {
         int NodeNumber { get; }
         int Layer { get; }
-        List<ILink> ConnectedLinks { get; }
+        IReadOnlyList<ILink> ConnectedLinks { get; }
         PointF Center { get; }
 
         void Move(float xOffset, float yOffset);

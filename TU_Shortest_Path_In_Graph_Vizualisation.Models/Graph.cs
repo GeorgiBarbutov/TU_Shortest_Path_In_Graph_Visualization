@@ -11,6 +11,8 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         private const float CENTER_Y = 195f;
         private const int DEFAULT_NODE_NUMBER = 1;
 
+        private List<INode> nodes;
+
         public Graph()
         {
             this.Nodes = new List<INode>();
@@ -19,9 +21,12 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public int CurrentNodeNumber { get; private set; }
 
-        public List<INode> Nodes { get; private set; }
+        public IReadOnlyList<INode> Nodes {
+            get => this.nodes;
+            private set => this.nodes = (List<INode>)value;
+        }
 
-        public ILink AddLink(INode node1, INode node2, float weight)
+        public ILink AddLink(INode node1, INode node2, int weight)
         {
             ILink link = new Link(node1, node2, weight);
 
@@ -35,11 +40,45 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         {
             INode node = new Node(this.CurrentNodeNumber, layer, new PointF(CENTER_X, CENTER_Y));
 
-            this.Nodes.Add(node);
+            this.nodes.Add(node);
 
             this.CurrentNodeNumber += 1;
 
             return node;
+        }
+
+        public void RemoveLink(ILink link)
+        {
+            foreach (INode node in this.Nodes)
+            {
+                foreach (ILink connectedLink in node.ConnectedLinks)
+                {
+                    if(connectedLink == link)
+                    {
+                        ((Node)link.ConnectedNodes.Item1).RemoveLink(link);
+                        ((Node)link.ConnectedNodes.Item2).RemoveLink(link);
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void RemoveNode(INode node)
+        {
+            this.nodes.Remove(node);
+
+            foreach (ILink link in node.ConnectedLinks)
+            {
+                if(link.ConnectedNodes.Item1 == node)
+                {
+                    ((Node)link.ConnectedNodes.Item2).RemoveLink(link);
+                }
+                else
+                {
+                    ((Node)link.ConnectedNodes.Item1).RemoveLink(link);
+                }
+            } 
         }
     }
 }

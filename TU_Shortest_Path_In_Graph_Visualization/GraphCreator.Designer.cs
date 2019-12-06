@@ -41,10 +41,11 @@
             this.WeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.NodesLabel = new System.Windows.Forms.Label();
             this.WeightLabel = new System.Windows.Forms.Label();
-            this.Visualization = new System.Windows.Forms.Panel();
+            this.Visualization = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Node1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Node2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Visualization)).BeginInit();
             this.SuspendLayout();
             // 
             // AddNodeButton
@@ -65,6 +66,7 @@
             this.AddLinkButton.TabIndex = 2;
             this.AddLinkButton.Text = "Add Link";
             this.AddLinkButton.UseVisualStyleBackColor = true;
+            this.AddLinkButton.Click += new System.EventHandler(this.AddLinkButton_Click);
             // 
             // RemoveNodeButton
             // 
@@ -74,6 +76,7 @@
             this.RemoveNodeButton.TabIndex = 3;
             this.RemoveNodeButton.Text = "Remove Node";
             this.RemoveNodeButton.UseVisualStyleBackColor = true;
+            this.RemoveNodeButton.Click += new System.EventHandler(this.RemoveNodeButton_Click);
             // 
             // RemoveLinkButton
             // 
@@ -83,6 +86,7 @@
             this.RemoveLinkButton.TabIndex = 4;
             this.RemoveLinkButton.Text = "Remove Link";
             this.RemoveLinkButton.UseVisualStyleBackColor = true;
+            this.RemoveLinkButton.Click += new System.EventHandler(this.RemoveLinkButton_Click);
             // 
             // EditLinkButton
             // 
@@ -92,6 +96,7 @@
             this.EditLinkButton.TabIndex = 5;
             this.EditLinkButton.Text = "Edit Link";
             this.EditLinkButton.UseVisualStyleBackColor = true;
+            this.EditLinkButton.Click += new System.EventHandler(this.EditLinkButton_Click);
             // 
             // LoadGraphButton
             // 
@@ -178,12 +183,14 @@
             // 
             this.Visualization.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Visualization.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Visualization.Location = new System.Drawing.Point(13, 13);
-            this.Visualization.Margin = new System.Windows.Forms.Padding(4);
+            this.Visualization.Location = new System.Drawing.Point(12, 12);
             this.Visualization.Name = "Visualization";
-            this.Visualization.Size = new System.Drawing.Size(1310, 477);
-            this.Visualization.TabIndex = 14;
-            this.Visualization.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseClick);
+            this.Visualization.Size = new System.Drawing.Size(1311, 472);
+            this.Visualization.TabIndex = 15;
+            this.Visualization.TabStop = false;
+            this.Visualization.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseDown);
+            this.Visualization.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseMove);
+            this.Visualization.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseUp);
             // 
             // GraphCreator
             // 
@@ -206,9 +213,13 @@
             this.Controls.Add(this.AddNodeButton);
             this.Name = "GraphCreator";
             this.Text = "Graph Creator";
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.Node1NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Node2NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Visualization)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,7 +239,7 @@
         private System.Windows.Forms.NumericUpDown WeightNumericUpDown;
         private System.Windows.Forms.Label NodesLabel;
         private System.Windows.Forms.Label WeightLabel;
-        private System.Windows.Forms.Panel Visualization;
+        private System.Windows.Forms.PictureBox Visualization;
     }
 }
 
