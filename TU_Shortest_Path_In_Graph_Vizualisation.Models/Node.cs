@@ -17,6 +17,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             this.Layer = layer;
             this.ConnectedLinks = new List<ILink>();
             this.Center = center;
+            this.ResetDjikstraParameters();
         }
 
         public int NodeNumber { get; private set; }
@@ -29,6 +30,12 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         }
 
         public IPoint Center { get; private set; }
+
+        public bool IsVisited { get; set; }
+
+        public INode PreviousNode { get; set; }
+
+        public int DistanceFromSource { get; set; }
 
         internal void AddLink(ILink link)
         {
@@ -62,6 +69,13 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         public void Move(float xOffset, float yOffset)
         {
             this.Center = new Point(this.Center.X + xOffset, this.Center.Y + yOffset);
+        }
+
+        public void ResetDjikstraParameters()
+        {
+            this.IsVisited = false;
+            this.DistanceFromSource = int.MaxValue;
+            this.PreviousNode = null;
         }
     }
 }

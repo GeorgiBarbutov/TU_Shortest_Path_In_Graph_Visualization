@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TU_Shortest_Path_In_Graph_Visualization.IO;
 using TU_Shortest_Path_In_Graph_Visualization.IO.Contracts;
@@ -23,7 +17,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
     {
         private const int DEFAULT_CURRENT_MAX_LAYER = 0;
         private const int MINIMUM_RANDOM_WEIGHT = 1;
-        private const int MAXIMUM_RANDOM_WEIGHT = 1000;
+        private const int MAXIMUM_RANDOM_WEIGHT = 100;
 
         private IGraph graph;
         private INodeDraw selectedNode;
@@ -34,6 +28,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private int mouseDownYCoordinate;
         private IExporter exporter;
         private IImporter importer;
+        private INodeDraw source;
+        private INodeDraw destination;
 
         public GraphCreator()
         {
@@ -45,6 +41,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.selectedLink = null;
             this.selectedNode = null;
             this.currentMaxLayer = DEFAULT_CURRENT_MAX_LAYER;
+            this.source = null;
+            this.destination = null;
 
             this.graphics = this.Visualization.CreateGraphics();
         }
@@ -77,6 +75,14 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 if (this.selectedNode != null && node == this.selectedNode.Node)
                 {
                     nodeDraw.Draw(this.graphics, Color.Red);
+                }
+                else if (this.source != null && node == this.source.Node)
+                {
+                    nodeDraw.Draw(this.graphics, Color.Blue);
+                }
+                else if (this.destination != null && node == this.destination.Node)
+                {
+                    nodeDraw.Draw(this.graphics, Color.Green);
                 }
                 else
                 {
@@ -111,6 +117,18 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             {
                 this.graph.RemoveNode(this.selectedNode.Node);
 
+                if (this.source != null && this.selectedNode.Node == this.source.Node)
+                {
+                    this.graph.Source = null;
+                    this.source = null;
+                }
+
+                if (this.destination != null && this.selectedNode.Node == this.destination.Node)
+                {
+                    this.graph.Destination = null;
+                    this.destination = null;
+                }
+
                 this.selectedNode = null;
 
                 RedrawPanel();
@@ -128,7 +146,18 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 if (this.selectedNode != null)
                 {
-                    this.selectedNode.Draw(this.graphics, Color.Black);
+                    if (this.source != null && this.selectedNode.Node == this.source.Node)
+                    {
+                        this.selectedNode.Draw(this.graphics, Color.Blue);
+                    }
+                    else if (this.destination != null && this.selectedNode.Node == this.destination.Node)
+                    {
+                        this.selectedNode.Draw(this.graphics, Color.Green);
+                    }
+                    else
+                    {
+                        this.selectedNode.Draw(this.graphics, Color.Black);
+                    }
                 }
 
                 if (this.selectedLink != null)
@@ -323,6 +352,9 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 this.selectedNode = null;
                 DeselectLink();
 
+                this.source = new NodeDraw(this.graph.Source);
+                this.destination = new NodeDraw(this.graph.Destination);
+
                 RedrawPanel();
             }
 
@@ -402,6 +434,59 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 Math.Abs(point1.Y - point2.Y) * Math.Abs(point1.Y - point2.Y));
 
             return distance <= 2 * Node.NODE_SIZE;
+        }
+
+        private void SimulateAlgorithmButton_Click(object sender, EventArgs e)
+        {
+            DjikstraAlgorithm djikstraAlgorithm = new DjikstraAlgorithm();
+
+            djikstraAlgorithm.ShowDialog();
+
+            djikstraAlgorithm.Dispose();
+        }
+
+        private void SetSourceButton_Click(object sender, EventArgs e)
+        {
+            if(this.selectedNode != null)
+            {
+                if(this.source != null)
+                {
+                    this.source.Draw(this.graphics, Color.Black);
+                }
+
+                if(this.destination != null && this.selectedNode.Node == this.destination.Node)
+                {
+                    this.destination = null;
+                    this.graph.Destination = null;
+                }
+
+                this.source = this.selectedNode;
+                this.graph.Source = this.source.Node;
+
+                this.source.Draw(this.graphics, Color.Blue);
+            }
+        }
+
+        private void SetDestinationButton_Click(object sender, EventArgs e)
+        {
+            if (this.selectedNode != null)
+            {
+                if (this.destination != null)
+                {
+                    this.destination.Draw(this.graphics, Color.Black);
+                }
+
+                if (this.source != null && this.selectedNode.Node == this.source.Node)
+                {
+                    this.source = null;
+                    this.graph.Source = null;
+                }
+
+                this.destination = this.selectedNode;
+                this.graph.Destination = this.destination.Node;
+
+                this.destination.Draw(this.graphics, Color.Green);
+            }
         }
     }
 }

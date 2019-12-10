@@ -48,6 +48,15 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO
                     }
                 }
             }
+
+            if(graphDto.Source != 0)
+            {
+                graph.Source = graph.Nodes.First(n => n.NodeNumber == graphDto.Source);
+            }
+            if (graphDto.Destination != 0)
+            {
+                graph.Destination = graph.Nodes.First(n => n.NodeNumber == graphDto.Destination);
+            }
         }
 
         private static GraphDto ImportGraphDtoFromXml(string path)

@@ -8,5 +8,11 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO.Dtos
     {
         [XmlArray("Nodes")]
         public List<NodeDto> Nodes { get; set; }
+
+        [XmlElement("Source")]
+        public int Source { get; set; }
+
+        [XmlElement("Destination")]
+        public int Destination { get; set; }
     }
 }

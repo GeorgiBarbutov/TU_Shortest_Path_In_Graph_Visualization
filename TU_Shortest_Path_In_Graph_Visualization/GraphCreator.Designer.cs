@@ -47,6 +47,8 @@
             this.RandomLinksLabel = new System.Windows.Forms.Label();
             this.RandomNodesLabel = new System.Windows.Forms.Label();
             this.RandomNodesUpDown = new System.Windows.Forms.NumericUpDown();
+            this.SetSourceButton = new System.Windows.Forms.Button();
+            this.SetDestinationButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Node1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Node2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
@@ -57,9 +59,9 @@
             // 
             // AddNodeButton
             // 
-            this.AddNodeButton.Location = new System.Drawing.Point(12, 521);
+            this.AddNodeButton.Location = new System.Drawing.Point(12, 533);
             this.AddNodeButton.Name = "AddNodeButton";
-            this.AddNodeButton.Size = new System.Drawing.Size(166, 59);
+            this.AddNodeButton.Size = new System.Drawing.Size(130, 59);
             this.AddNodeButton.TabIndex = 1;
             this.AddNodeButton.Text = "Add Node";
             this.AddNodeButton.UseVisualStyleBackColor = true;
@@ -67,9 +69,9 @@
             // 
             // AddLinkButton
             // 
-            this.AddLinkButton.Location = new System.Drawing.Point(276, 521);
+            this.AddLinkButton.Location = new System.Drawing.Point(412, 533);
             this.AddLinkButton.Name = "AddLinkButton";
-            this.AddLinkButton.Size = new System.Drawing.Size(166, 59);
+            this.AddLinkButton.Size = new System.Drawing.Size(130, 59);
             this.AddLinkButton.TabIndex = 2;
             this.AddLinkButton.Text = "Add Link";
             this.AddLinkButton.UseVisualStyleBackColor = true;
@@ -79,7 +81,7 @@
             // 
             this.RemoveNodeButton.Location = new System.Drawing.Point(12, 628);
             this.RemoveNodeButton.Name = "RemoveNodeButton";
-            this.RemoveNodeButton.Size = new System.Drawing.Size(166, 59);
+            this.RemoveNodeButton.Size = new System.Drawing.Size(130, 59);
             this.RemoveNodeButton.TabIndex = 3;
             this.RemoveNodeButton.Text = "Remove Node";
             this.RemoveNodeButton.UseVisualStyleBackColor = true;
@@ -87,9 +89,9 @@
             // 
             // RemoveLinkButton
             // 
-            this.RemoveLinkButton.Location = new System.Drawing.Point(276, 628);
+            this.RemoveLinkButton.Location = new System.Drawing.Point(412, 628);
             this.RemoveLinkButton.Name = "RemoveLinkButton";
-            this.RemoveLinkButton.Size = new System.Drawing.Size(166, 59);
+            this.RemoveLinkButton.Size = new System.Drawing.Size(132, 59);
             this.RemoveLinkButton.TabIndex = 4;
             this.RemoveLinkButton.Text = "Remove Link";
             this.RemoveLinkButton.UseVisualStyleBackColor = true;
@@ -97,9 +99,9 @@
             // 
             // EditLinkButton
             // 
-            this.EditLinkButton.Location = new System.Drawing.Point(482, 521);
+            this.EditLinkButton.Location = new System.Drawing.Point(558, 533);
             this.EditLinkButton.Name = "EditLinkButton";
-            this.EditLinkButton.Size = new System.Drawing.Size(166, 59);
+            this.EditLinkButton.Size = new System.Drawing.Size(132, 59);
             this.EditLinkButton.TabIndex = 5;
             this.EditLinkButton.Text = "Edit Link";
             this.EditLinkButton.UseVisualStyleBackColor = true;
@@ -107,9 +109,9 @@
             // 
             // LoadGraphButton
             // 
-            this.LoadGraphButton.Location = new System.Drawing.Point(1158, 628);
+            this.LoadGraphButton.Location = new System.Drawing.Point(1192, 628);
             this.LoadGraphButton.Name = "LoadGraphButton";
-            this.LoadGraphButton.Size = new System.Drawing.Size(166, 59);
+            this.LoadGraphButton.Size = new System.Drawing.Size(132, 59);
             this.LoadGraphButton.TabIndex = 6;
             this.LoadGraphButton.Text = "Load Graph";
             this.LoadGraphButton.UseVisualStyleBackColor = true;
@@ -117,9 +119,9 @@
             // 
             // SaveGraphButton
             // 
-            this.SaveGraphButton.Location = new System.Drawing.Point(1158, 521);
+            this.SaveGraphButton.Location = new System.Drawing.Point(1192, 533);
             this.SaveGraphButton.Name = "SaveGraphButton";
-            this.SaveGraphButton.Size = new System.Drawing.Size(166, 59);
+            this.SaveGraphButton.Size = new System.Drawing.Size(132, 59);
             this.SaveGraphButton.TabIndex = 7;
             this.SaveGraphButton.Text = "Save Graph";
             this.SaveGraphButton.UseVisualStyleBackColor = true;
@@ -127,16 +129,17 @@
             // 
             // SimulateAlgorithmButton
             // 
-            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(827, 521);
+            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(883, 533);
             this.SimulateAlgorithmButton.Name = "SimulateAlgorithmButton";
-            this.SimulateAlgorithmButton.Size = new System.Drawing.Size(166, 59);
+            this.SimulateAlgorithmButton.Size = new System.Drawing.Size(132, 59);
             this.SimulateAlgorithmButton.TabIndex = 8;
             this.SimulateAlgorithmButton.Text = "Simulate Algorithm";
             this.SimulateAlgorithmButton.UseVisualStyleBackColor = true;
+            this.SimulateAlgorithmButton.Click += new System.EventHandler(this.SimulateAlgorithmButton_Click);
             // 
             // Node1NumericUpDown
             // 
-            this.Node1NumericUpDown.Location = new System.Drawing.Point(587, 637);
+            this.Node1NumericUpDown.Location = new System.Drawing.Point(629, 634);
             this.Node1NumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -148,7 +151,7 @@
             // 
             // Node2NumericUpDown
             // 
-            this.Node2NumericUpDown.Location = new System.Drawing.Point(587, 665);
+            this.Node2NumericUpDown.Location = new System.Drawing.Point(629, 665);
             this.Node2NumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -160,20 +163,20 @@
             // 
             // WeightNumericUpDown
             // 
-            this.WeightNumericUpDown.Location = new System.Drawing.Point(482, 665);
+            this.WeightNumericUpDown.Location = new System.Drawing.Point(550, 664);
             this.WeightNumericUpDown.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.WeightNumericUpDown.Name = "WeightNumericUpDown";
-            this.WeightNumericUpDown.Size = new System.Drawing.Size(99, 22);
+            this.WeightNumericUpDown.Size = new System.Drawing.Size(70, 22);
             this.WeightNumericUpDown.TabIndex = 11;
             // 
             // NodesLabel
             // 
             this.NodesLabel.AutoSize = true;
-            this.NodesLabel.Location = new System.Drawing.Point(584, 611);
+            this.NodesLabel.Location = new System.Drawing.Point(626, 614);
             this.NodesLabel.Name = "NodesLabel";
             this.NodesLabel.Size = new System.Drawing.Size(49, 17);
             this.NodesLabel.TabIndex = 12;
@@ -182,7 +185,7 @@
             // WeightLabel
             // 
             this.WeightLabel.AutoSize = true;
-            this.WeightLabel.Location = new System.Drawing.Point(479, 639);
+            this.WeightLabel.Location = new System.Drawing.Point(547, 644);
             this.WeightLabel.Name = "WeightLabel";
             this.WeightLabel.Size = new System.Drawing.Size(52, 17);
             this.WeightLabel.TabIndex = 13;
@@ -194,7 +197,7 @@
             this.Visualization.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Visualization.Location = new System.Drawing.Point(12, 12);
             this.Visualization.Name = "Visualization";
-            this.Visualization.Size = new System.Drawing.Size(1311, 472);
+            this.Visualization.Size = new System.Drawing.Size(1312, 472);
             this.Visualization.TabIndex = 15;
             this.Visualization.TabStop = false;
             this.Visualization.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseDown);
@@ -203,9 +206,9 @@
             // 
             // GenerateRandomButton
             // 
-            this.GenerateRandomButton.Location = new System.Drawing.Point(746, 628);
+            this.GenerateRandomButton.Location = new System.Drawing.Point(819, 628);
             this.GenerateRandomButton.Name = "GenerateRandomButton";
-            this.GenerateRandomButton.Size = new System.Drawing.Size(166, 59);
+            this.GenerateRandomButton.Size = new System.Drawing.Size(132, 59);
             this.GenerateRandomButton.TabIndex = 16;
             this.GenerateRandomButton.Text = "Generate Random Graph";
             this.GenerateRandomButton.UseVisualStyleBackColor = true;
@@ -213,7 +216,7 @@
             // 
             // RandomLinksUpDown
             // 
-            this.RandomLinksUpDown.Location = new System.Drawing.Point(999, 665);
+            this.RandomLinksUpDown.Location = new System.Drawing.Point(1021, 665);
             this.RandomLinksUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -226,7 +229,7 @@
             // RandomLinksLabel
             // 
             this.RandomLinksLabel.AutoSize = true;
-            this.RandomLinksLabel.Location = new System.Drawing.Point(941, 667);
+            this.RandomLinksLabel.Location = new System.Drawing.Point(974, 664);
             this.RandomLinksLabel.Name = "RandomLinksLabel";
             this.RandomLinksLabel.Size = new System.Drawing.Size(41, 17);
             this.RandomLinksLabel.TabIndex = 18;
@@ -235,7 +238,7 @@
             // RandomNodesLabel
             // 
             this.RandomNodesLabel.AutoSize = true;
-            this.RandomNodesLabel.Location = new System.Drawing.Point(941, 639);
+            this.RandomNodesLabel.Location = new System.Drawing.Point(966, 634);
             this.RandomNodesLabel.Name = "RandomNodesLabel";
             this.RandomNodesLabel.Size = new System.Drawing.Size(49, 17);
             this.RandomNodesLabel.TabIndex = 19;
@@ -243,7 +246,7 @@
             // 
             // RandomNodesUpDown
             // 
-            this.RandomNodesUpDown.Location = new System.Drawing.Point(999, 637);
+            this.RandomNodesUpDown.Location = new System.Drawing.Point(1021, 634);
             this.RandomNodesUpDown.Maximum = new decimal(new int[] {
             200,
             0,
@@ -255,11 +258,35 @@
             this.RandomNodesUpDown.Tag = "RandomNodes";
             this.RandomNodesUpDown.ValueChanged += new System.EventHandler(this.RandomNodesUpDown_ValueChanged);
             // 
+            // SetSourceButton
+            // 
+            this.SetSourceButton.ForeColor = System.Drawing.Color.Blue;
+            this.SetSourceButton.Location = new System.Drawing.Point(160, 533);
+            this.SetSourceButton.Name = "SetSourceButton";
+            this.SetSourceButton.Size = new System.Drawing.Size(130, 59);
+            this.SetSourceButton.TabIndex = 21;
+            this.SetSourceButton.Text = "Set as Source";
+            this.SetSourceButton.UseVisualStyleBackColor = true;
+            this.SetSourceButton.Click += new System.EventHandler(this.SetSourceButton_Click);
+            // 
+            // SetDestinationButton
+            // 
+            this.SetDestinationButton.ForeColor = System.Drawing.Color.Green;
+            this.SetDestinationButton.Location = new System.Drawing.Point(160, 628);
+            this.SetDestinationButton.Name = "SetDestinationButton";
+            this.SetDestinationButton.Size = new System.Drawing.Size(130, 59);
+            this.SetDestinationButton.TabIndex = 22;
+            this.SetDestinationButton.Text = "Set as Destination";
+            this.SetDestinationButton.UseVisualStyleBackColor = true;
+            this.SetDestinationButton.Click += new System.EventHandler(this.SetDestinationButton_Click);
+            // 
             // GraphCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1336, 746);
+            this.Controls.Add(this.SetDestinationButton);
+            this.Controls.Add(this.SetSourceButton);
             this.Controls.Add(this.RandomNodesUpDown);
             this.Controls.Add(this.RandomNodesLabel);
             this.Controls.Add(this.RandomLinksLabel);
@@ -315,6 +342,8 @@
         private System.Windows.Forms.Label RandomLinksLabel;
         private System.Windows.Forms.Label RandomNodesLabel;
         private System.Windows.Forms.NumericUpDown RandomNodesUpDown;
+        private System.Windows.Forms.Button SetSourceButton;
+        private System.Windows.Forms.Button SetDestinationButton;
     }
 }
 

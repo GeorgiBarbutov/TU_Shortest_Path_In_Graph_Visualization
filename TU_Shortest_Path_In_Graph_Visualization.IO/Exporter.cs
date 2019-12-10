@@ -24,6 +24,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO
         {
             return new GraphDto
             {
+                Source = this.graph.Source != null ? this.graph.Source.NodeNumber : 0,
+                Destination = this.graph.Destination != null ? this.graph.Destination.NodeNumber : 0,
                 Nodes = this.graph.Nodes.Select(n => new NodeDto
                 {
                     CenterX = n.Center.X,

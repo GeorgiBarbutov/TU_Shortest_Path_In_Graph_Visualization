@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
@@ -15,12 +16,16 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         {
             this.Nodes = new List<INode>();
             this.CurrentNodeNumber = DEFAULT_NODE_NUMBER;
+            this.Source = null;
+            this.Destination = null;
         }
 
         public Graph(int nodeNumber)
         {
             this.Nodes = new List<INode>();
             this.CurrentNodeNumber = nodeNumber;
+            this.Source = null;
+            this.Destination = null;
         }
 
         public int CurrentNodeNumber { get; private set; }
@@ -29,6 +34,10 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             get => this.nodes;
             private set => this.nodes = (List<INode>)value;
         }
+
+        public INode Source { get; set; }
+
+        public INode Destination { get; set; }
 
         public INode AddExistingNode(int layer, int nodeNumber, float centerX, float centerY)
         {
@@ -103,6 +112,56 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
                     ((Node)link.ConnectedNodes.Item1).RemoveLink(link);
                 }
             } 
+        }
+
+        public void Dijkstra()
+        {
+            foreach (INode node in this.Nodes)
+            {
+                node.ResetDjikstraParameters();
+            }
+
+            this.Source.DistanceFromSource = 0;
+
+            INode currentNode = this.Source;
+
+            while (true)
+            {
+                foreach (ILink link in currentNode.ConnectedLinks)
+                {
+                    INode otherNode;
+                    if (link.ConnectedNodes.Item1 == currentNode)
+                    {
+                        otherNode = link.ConnectedNodes.Item2;
+                    }
+                    else
+                    {
+                        otherNode = link.ConnectedNodes.Item1;
+                    }
+
+                    if (!otherNode.IsVisited)
+                    {
+                        int tentativeDistance = currentNode.DistanceFromSource + link.Weight;
+
+                        if (tentativeDistance < otherNode.DistanceFromSource)
+                        {
+                            otherNode.DistanceFromSource = tentativeDistance;
+                            otherNode.PreviousNode = currentNode;
+                        }
+                    }
+                }
+
+                currentNode.IsVisited = true;
+
+                if (this.Destination.IsVisited)
+                {
+                    break;
+                }
+                else
+                {
+                    currentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).ToArray()[0];
+                }
+            }
         }
     }
 }
