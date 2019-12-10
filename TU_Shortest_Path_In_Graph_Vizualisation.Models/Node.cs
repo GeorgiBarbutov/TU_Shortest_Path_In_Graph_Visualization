@@ -6,7 +6,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 {
     public class Node : INode
     {
-        private const float NODE_SIZE = 20f;
+        public const float NODE_SIZE = 20f;
         private const string NEGATIVE_LAYER = "Negative layer not permited";
 
         private List<ILink> connectedLinks;

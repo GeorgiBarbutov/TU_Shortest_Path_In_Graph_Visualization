@@ -42,10 +42,17 @@
             this.NodesLabel = new System.Windows.Forms.Label();
             this.WeightLabel = new System.Windows.Forms.Label();
             this.Visualization = new System.Windows.Forms.PictureBox();
+            this.GenerateRandomButton = new System.Windows.Forms.Button();
+            this.RandomLinksUpDown = new System.Windows.Forms.NumericUpDown();
+            this.RandomLinksLabel = new System.Windows.Forms.Label();
+            this.RandomNodesLabel = new System.Windows.Forms.Label();
+            this.RandomNodesUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.Node1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Node2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Visualization)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomLinksUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomNodesUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // AddNodeButton
@@ -120,7 +127,7 @@
             // 
             // SimulateAlgorithmButton
             // 
-            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(819, 580);
+            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(827, 521);
             this.SimulateAlgorithmButton.Name = "SimulateAlgorithmButton";
             this.SimulateAlgorithmButton.Size = new System.Drawing.Size(166, 59);
             this.SimulateAlgorithmButton.TabIndex = 8;
@@ -194,11 +201,70 @@
             this.Visualization.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseMove);
             this.Visualization.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseUp);
             // 
+            // GenerateRandomButton
+            // 
+            this.GenerateRandomButton.Location = new System.Drawing.Point(746, 628);
+            this.GenerateRandomButton.Name = "GenerateRandomButton";
+            this.GenerateRandomButton.Size = new System.Drawing.Size(166, 59);
+            this.GenerateRandomButton.TabIndex = 16;
+            this.GenerateRandomButton.Text = "Generate Random Graph";
+            this.GenerateRandomButton.UseVisualStyleBackColor = true;
+            this.GenerateRandomButton.Click += new System.EventHandler(this.GenerateRandomButton_Click);
+            // 
+            // RandomLinksUpDown
+            // 
+            this.RandomLinksUpDown.Location = new System.Drawing.Point(999, 665);
+            this.RandomLinksUpDown.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.RandomLinksUpDown.Name = "RandomLinksUpDown";
+            this.RandomLinksUpDown.Size = new System.Drawing.Size(61, 22);
+            this.RandomLinksUpDown.TabIndex = 17;
+            // 
+            // RandomLinksLabel
+            // 
+            this.RandomLinksLabel.AutoSize = true;
+            this.RandomLinksLabel.Location = new System.Drawing.Point(941, 667);
+            this.RandomLinksLabel.Name = "RandomLinksLabel";
+            this.RandomLinksLabel.Size = new System.Drawing.Size(41, 17);
+            this.RandomLinksLabel.TabIndex = 18;
+            this.RandomLinksLabel.Text = "Links";
+            // 
+            // RandomNodesLabel
+            // 
+            this.RandomNodesLabel.AutoSize = true;
+            this.RandomNodesLabel.Location = new System.Drawing.Point(941, 639);
+            this.RandomNodesLabel.Name = "RandomNodesLabel";
+            this.RandomNodesLabel.Size = new System.Drawing.Size(49, 17);
+            this.RandomNodesLabel.TabIndex = 19;
+            this.RandomNodesLabel.Text = "Nodes";
+            // 
+            // RandomNodesUpDown
+            // 
+            this.RandomNodesUpDown.Location = new System.Drawing.Point(999, 637);
+            this.RandomNodesUpDown.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.RandomNodesUpDown.Name = "RandomNodesUpDown";
+            this.RandomNodesUpDown.Size = new System.Drawing.Size(61, 22);
+            this.RandomNodesUpDown.TabIndex = 20;
+            this.RandomNodesUpDown.Tag = "RandomNodes";
+            this.RandomNodesUpDown.ValueChanged += new System.EventHandler(this.RandomNodesUpDown_ValueChanged);
+            // 
             // GraphCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1336, 746);
+            this.Controls.Add(this.RandomNodesUpDown);
+            this.Controls.Add(this.RandomNodesLabel);
+            this.Controls.Add(this.RandomLinksLabel);
+            this.Controls.Add(this.RandomLinksUpDown);
+            this.Controls.Add(this.GenerateRandomButton);
             this.Controls.Add(this.Visualization);
             this.Controls.Add(this.WeightLabel);
             this.Controls.Add(this.NodesLabel);
@@ -222,6 +288,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Node2NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Visualization)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomLinksUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomNodesUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,6 +310,11 @@
         private System.Windows.Forms.Label NodesLabel;
         private System.Windows.Forms.Label WeightLabel;
         private System.Windows.Forms.PictureBox Visualization;
+        private System.Windows.Forms.Button GenerateRandomButton;
+        private System.Windows.Forms.NumericUpDown RandomLinksUpDown;
+        private System.Windows.Forms.Label RandomLinksLabel;
+        private System.Windows.Forms.Label RandomNodesLabel;
+        private System.Windows.Forms.NumericUpDown RandomNodesUpDown;
     }
 }
 

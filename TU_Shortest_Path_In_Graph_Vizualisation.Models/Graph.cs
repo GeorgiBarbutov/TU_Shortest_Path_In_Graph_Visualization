@@ -60,6 +60,17 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             return node;
         }
 
+        public INode AddNode(int layer, IPoint center)
+        {
+            INode node = new Node(this.CurrentNodeNumber, layer, center);
+
+            this.nodes.Add(node);
+
+            this.CurrentNodeNumber += 1;
+
+            return node;
+        }
+
         public void RemoveLink(ILink link)
         {
             foreach (INode node in this.Nodes)

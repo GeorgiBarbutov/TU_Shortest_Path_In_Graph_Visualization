@@ -22,6 +22,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
     public partial class GraphCreator : Form
     {
         private const int DEFAULT_CURRENT_MAX_LAYER = 0;
+        private const int MINIMUM_RANDOM_WEIGHT = 1;
+        private const int MAXIMUM_RANDOM_WEIGHT = 1000;
 
         private IGraph graph;
         private INodeDraw selectedNode;
@@ -95,7 +97,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             this.currentMaxLayer += 1;
 
-            INode node = this.graph.AddNode(this.currentMaxLayer);
+            this.graph.AddNode(this.currentMaxLayer);
 
             this.selectedNode = null;
             DeselectLink();
@@ -229,7 +231,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 if(!linkExists)
                 {
-                    ILink link = this.graph.AddLink(node1, node2, (int)this.WeightNumericUpDown.Value);
+                    this.graph.AddLink(node1, node2, (int)this.WeightNumericUpDown.Value);
 
                     this.selectedNode = null;
                     DeselectLink();
@@ -325,6 +327,81 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
 
             openFileDialog.Dispose();
+        }
+
+        private void RandomNodesUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            this.RandomLinksUpDown.Maximum = this.RandomNodesUpDown.Value * ((this.RandomNodesUpDown.Value - 1) / 2);
+        }
+
+        private void GenerateRandomButton_Click(object sender, EventArgs e)
+        {
+            decimal nodesCount = this.RandomNodesUpDown.Value;
+            decimal linksCount = this.RandomLinksUpDown.Value;
+
+            int nodesInGraph = this.graph.Nodes.Count;
+
+            for (int i = 0; i < nodesInGraph; i++)
+            {
+                this.graph.RemoveNode(this.graph.Nodes[0]);
+            }
+
+            Random random = new Random();
+
+            decimal createdNodes = 0;
+
+            while(createdNodes < nodesCount)
+            {
+                int randomX = random.Next((int)Node.NODE_SIZE, this.Visualization.Width - (int)Node.NODE_SIZE);
+                int randomY = random.Next((int)Node.NODE_SIZE, this.Visualization.Height - (int)Node.NODE_SIZE);
+
+                IPoint center = new Point(randomX, randomY);
+
+                if (!this.graph.Nodes.Any(n => CheckDistanceBetweenCenters(center, n.Center))) 
+                {
+                    this.currentMaxLayer += 1;
+
+                    this.graph.AddNode(this.currentMaxLayer, center);
+
+                    createdNodes += 1;
+                }
+            }
+
+            decimal createdLinks = 0;
+
+            while (createdLinks < linksCount)
+            {
+                int randomNode1 = random.Next(0, this.graph.Nodes.Count);
+                int randomNode2 = random.Next(0, this.graph.Nodes.Count);
+
+                if(randomNode1 == randomNode2)
+                {
+                    continue;
+                }
+
+                int weight = random.Next(MINIMUM_RANDOM_WEIGHT, MAXIMUM_RANDOM_WEIGHT);
+
+                INode node1 = this.graph.Nodes[randomNode1];
+                INode node2 = this.graph.Nodes[randomNode2];
+
+                if (!node1.ConnectedLinks.Any(l => (l.ConnectedNodes.Item1 == node1 && l.ConnectedNodes.Item2 == node2) ||
+                    (l.ConnectedNodes.Item1 == node2 && l.ConnectedNodes.Item2 == node1)))
+                {
+                    this.graph.AddLink(node1, node2, weight);
+
+                    createdLinks += 1;
+                }
+            }
+
+            RedrawPanel();
+        }
+
+        private bool CheckDistanceBetweenCenters(IPoint point1, IPoint point2)
+        {
+            double distance = Math.Sqrt(Math.Abs(point1.X - point2.X) * Math.Abs(point1.X - point2.X) + 
+                Math.Abs(point1.Y - point2.Y) * Math.Abs(point1.Y - point2.Y));
+
+            return distance <= 2 * Node.NODE_SIZE;
         }
     }
 }
