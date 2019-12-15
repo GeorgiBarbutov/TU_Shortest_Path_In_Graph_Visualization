@@ -9,6 +9,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         private const float CENTER_X = 490f;
         private const float CENTER_Y = 195f;
         private const int DEFAULT_NODE_NUMBER = 1;
+        private const bool DEFAULT_DESTINATION_IS_VISITED = false;
 
         private List<INode> nodes;
 
@@ -18,6 +19,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             this.CurrentNodeNumber = DEFAULT_NODE_NUMBER;
             this.Source = null;
             this.Destination = null;
+            this.DestinationIsVisited = DEFAULT_DESTINATION_IS_VISITED;
         }
 
         public Graph(int nodeNumber)
@@ -38,6 +40,10 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         public INode Source { get; set; }
 
         public INode Destination { get; set; }
+
+        public INode DijkstraCurrentNode { get; private set; }
+
+        public bool DestinationIsVisited { get; private set; }
 
         public INode AddExistingNode(int layer, int nodeNumber, float centerX, float centerY)
         {
@@ -101,9 +107,13 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         {
             this.nodes.Remove(node);
 
-            foreach (ILink link in node.ConnectedLinks)
+            int connectedLinks = node.ConnectedLinks.Count;
+
+            for (int i = 0; i < connectedLinks; i++)
             {
-                if(link.ConnectedNodes.Item1 == node)
+                ILink link = node.ConnectedLinks[0];
+
+                if (link.ConnectedNodes.Item1 == node)
                 {
                     ((Node)link.ConnectedNodes.Item2).RemoveLink(link);
                 }
@@ -111,57 +121,66 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
                 {
                     ((Node)link.ConnectedNodes.Item1).RemoveLink(link);
                 }
+
+                ((Node)node).RemoveLink(link);
             } 
         }
 
-        public void Dijkstra()
+        public void Step1()
         {
             foreach (INode node in this.Nodes)
             {
                 node.ResetDjikstraParameters();
             }
+        }
 
+        public void Step2()
+        {
             this.Source.DistanceFromSource = 0;
 
-            INode currentNode = this.Source;
+            this.DijkstraCurrentNode = this.Source;
+        }
 
-            while (true)
+        public void Step3()
+        {
+            foreach (ILink link in this.DijkstraCurrentNode.ConnectedLinks)
             {
-                foreach (ILink link in currentNode.ConnectedLinks)
+                INode otherNode;
+                if (link.ConnectedNodes.Item1 == this.DijkstraCurrentNode)
                 {
-                    INode otherNode;
-                    if (link.ConnectedNodes.Item1 == currentNode)
-                    {
-                        otherNode = link.ConnectedNodes.Item2;
-                    }
-                    else
-                    {
-                        otherNode = link.ConnectedNodes.Item1;
-                    }
-
-                    if (!otherNode.IsVisited)
-                    {
-                        int tentativeDistance = currentNode.DistanceFromSource + link.Weight;
-
-                        if (tentativeDistance < otherNode.DistanceFromSource)
-                        {
-                            otherNode.DistanceFromSource = tentativeDistance;
-                            otherNode.PreviousNode = currentNode;
-                        }
-                    }
-                }
-
-                currentNode.IsVisited = true;
-
-                if (this.Destination.IsVisited)
-                {
-                    break;
+                    otherNode = link.ConnectedNodes.Item2;
                 }
                 else
                 {
-                    currentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).ToArray()[0];
+                    otherNode = link.ConnectedNodes.Item1;
+                }
+
+                if (!otherNode.IsVisited)
+                {
+                    int tentativeDistance = this.DijkstraCurrentNode.DistanceFromSource + link.Weight;
+
+                    if (tentativeDistance < otherNode.DistanceFromSource)
+                    {
+                        otherNode.DistanceFromSource = tentativeDistance;
+                        otherNode.PreviousNode = this.DijkstraCurrentNode;
+                    }
                 }
             }
+        }
+
+        public void Step4()
+        {
+            this.DijkstraCurrentNode.IsVisited = true;
+        }
+
+        public void Step5()
+        {
+            this.DestinationIsVisited = this.Destination.IsVisited;
+        }
+
+        public void Step6()
+        {
+            this.DijkstraCurrentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).ToArray()[0];
         }
     }
 }

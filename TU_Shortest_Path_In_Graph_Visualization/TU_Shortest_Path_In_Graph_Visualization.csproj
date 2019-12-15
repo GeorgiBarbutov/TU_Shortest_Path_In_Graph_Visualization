@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DjikstraAlgorithm.cs">
+    <Compile Include="DijkstraAlgorithm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DjikstraAlgorithm.Designer.cs">
-      <DependentUpon>DjikstraAlgorithm.cs</DependentUpon>
+    <Compile Include="DijkstraAlgorithm.Designer.cs">
+      <DependentUpon>DijkstraAlgorithm.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphCreator.cs">
       <SubType>Form</SubType>
@@ -60,8 +60,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="DjikstraAlgorithm.resx">
-      <DependentUpon>DjikstraAlgorithm.cs</DependentUpon>
+    <EmbeddedResource Include="DijkstraAlgorithm.resx">
+      <DependentUpon>DijkstraAlgorithm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraphCreator.resx">
       <DependentUpon>GraphCreator.cs</DependentUpon>

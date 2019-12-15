@@ -26,8 +26,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private Graphics graphics;
         private int mouseDownXCoordinate;
         private int mouseDownYCoordinate;
-        private IExporter exporter;
-        private IImporter importer;
+        private readonly IExporter exporter;
+        private readonly IImporter importer;
         private INodeDraw source;
         private INodeDraw destination;
 
@@ -252,7 +252,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             INode node1 = this.graph.Nodes.FirstOrDefault(n => n.NodeNumber == this.Node1NumericUpDown.Value);
             INode node2 = this.graph.Nodes.FirstOrDefault(n => n.NodeNumber == this.Node2NumericUpDown.Value);
 
-            if(node1 != null && node2 != null)
+            if(node1 != null && node2 != null && node1 != node2)
             {
                 bool linkExists = node1.ConnectedLinks.Any(l => 
                     (l.ConnectedNodes.Item1 == node1 && l.ConnectedNodes.Item2 == node2) || 
@@ -290,7 +290,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 INode newNode2 = this.graph.Nodes.FirstOrDefault(n => n.NodeNumber == this.Node2NumericUpDown.Value);
                 int newWeight = (int)this.WeightNumericUpDown.Value;
 
-                if(newNode1 != null && newNode2 != null)
+                if(newNode1 != null && newNode2 != null && newNode1 != newNode2)
                 {
                     bool linkExists = newNode1.ConnectedLinks.Any(l =>
                         (l.ConnectedNodes.Item1 == newNode1 && l.ConnectedNodes.Item2 == newNode2) ||
@@ -352,8 +352,14 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 this.selectedNode = null;
                 DeselectLink();
 
-                this.source = new NodeDraw(this.graph.Source);
-                this.destination = new NodeDraw(this.graph.Destination);
+                if (this.graph.Source != null)
+                {
+                    this.source = new NodeDraw(this.graph.Source);
+                }
+                if (this.graph.Destination != null)
+                {
+                    this.destination = new NodeDraw(this.graph.Destination);
+                }
 
                 RedrawPanel();
             }
@@ -438,18 +444,25 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
         private void SimulateAlgorithmButton_Click(object sender, EventArgs e)
         {
-            DjikstraAlgorithm djikstraAlgorithm = new DjikstraAlgorithm();
+            if(this.graph.Source != null && this.graph.Destination != null)
+            {
+                DijkstraAlgorithm djikstraAlgorithm = new DijkstraAlgorithm(this.graph);
 
-            djikstraAlgorithm.ShowDialog();
+                djikstraAlgorithm.Show();
 
-            djikstraAlgorithm.Dispose();
+                djikstraAlgorithm.DrawPanel();
+            }
+            else
+            {
+                MessageBox.Show("Source and/or Destination not selected", "Warning", MessageBoxButtons.OK);
+            }
         }
 
         private void SetSourceButton_Click(object sender, EventArgs e)
         {
             if(this.selectedNode != null)
             {
-                if(this.source != null)
+                if(this.source != null && this.source.Node != null)
                 {
                     this.source.Draw(this.graphics, Color.Black);
                 }
@@ -471,7 +484,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             if (this.selectedNode != null)
             {
-                if (this.destination != null)
+                if (this.destination != null && this.destination.Node != null)
                 {
                     this.destination.Draw(this.graphics, Color.Black);
                 }

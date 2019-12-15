@@ -8,6 +8,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Drawing.Contracts
         INode Node { get; }
 
         void Draw(Graphics graphics, Color color);
-        void Outline(Graphics graphics, Color color);
+
+        void DrawTenativeValue(Graphics graphics, Color color);
     }
 }

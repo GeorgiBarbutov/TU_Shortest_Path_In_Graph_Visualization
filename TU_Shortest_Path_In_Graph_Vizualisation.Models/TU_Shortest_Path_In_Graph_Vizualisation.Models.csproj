@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IDijkstraSteps.cs" />
+    <Compile Include="Contracts\IDijkstraValues.cs" />
     <Compile Include="Contracts\IGraph.cs" />
     <Compile Include="Contracts\ILink.cs" />
     <Compile Include="Contracts\INode.cs" />
