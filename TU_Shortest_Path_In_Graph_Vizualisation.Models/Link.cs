@@ -1,4 +1,5 @@
 ﻿using System;
+
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
@@ -15,11 +16,14 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public int Weight { get; private set; }
 
+        //Changes the weight
         public void ChangeWeight(int newWeight)
         {
             this.Weight = newWeight;
         }
 
+        //Checks if a point is on the line representing the link. 
+        //Check is deliberatly not perfect in order to make link selection easier
         public bool Contains(IPoint point)
         {
             double x1 = this.ConnectedNodes.Item1.Center.X;

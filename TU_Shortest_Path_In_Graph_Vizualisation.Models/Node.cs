@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
@@ -37,16 +38,19 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public int DistanceFromSource { get; set; }
 
+        //Adds link to connected links list
         internal void AddLink(ILink link)
         {
             this.connectedLinks.Add(link);
         }
 
+        //Removes link to connected links list
         internal void RemoveLink(ILink link)
         {
             this.connectedLinks.Remove(link);
         }
 
+        //Changes current layer if the value is non negative
         public void ChangeCurrentLayer(int newLayer)
         {
             if (newLayer < 0)
@@ -57,6 +61,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             this.Layer = newLayer;
         }
 
+        //Checks if a point is inside or on the node 
         public bool Contains(IPoint point)
         {
             if ((point.X - this.Center.X) * (point.X - this.Center.X) +
@@ -66,11 +71,13 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
                 return false;
         }
 
+        //Changes the values of the center by a given offset
         public void Move(float xOffset, float yOffset)
         {
             this.Center = new Point(this.Center.X + xOffset, this.Center.Y + yOffset);
         }
 
+        //Resets values important for Dijkstra Algorithm
         public void ResetDjikstraParameters()
         {
             this.IsVisited = false;

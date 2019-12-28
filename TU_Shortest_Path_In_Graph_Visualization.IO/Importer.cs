@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+
 using TU_Shortest_Path_In_Graph_Visualization.IO.Contracts;
 using TU_Shortest_Path_In_Graph_Visualization.IO.Dtos;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models;
@@ -10,6 +11,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO
 {
     public class Importer : IImporter
     {
+        //Import the GraphDto from a xml file then get the new graph then set the current max layer
         public IGraph Import(string path, out int currentMaxLayer)
         {
             GraphDto graphDto = ImportGraphDtoFromXml(path);
@@ -22,6 +24,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO
             return graph;
         }
 
+        //Get the data for nodes and links from GraphDto and add them to the new graph than set the source and destination if any
         private static void GetGraphFromDto(GraphDto graphDto, out IGraph graph)
         {
             graph = new Graph(graphDto.Nodes.Count);
@@ -53,12 +56,22 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO
             {
                 graph.Source = graph.Nodes.First(n => n.NodeNumber == graphDto.Source);
             }
+            else
+            {
+                graph.Source = null;
+            }
+
             if (graphDto.Destination != 0)
             {
                 graph.Destination = graph.Nodes.First(n => n.NodeNumber == graphDto.Destination);
             }
+            else
+            {
+                graph.Destination = null;
+            }
         }
 
+        //Using a XmlSerializer import the data from a specified xml file into a GraphDto object 
         private static GraphDto ImportGraphDtoFromXml(string path)
         {
             XmlRootAttribute rootAttribute = new XmlRootAttribute("Graph");

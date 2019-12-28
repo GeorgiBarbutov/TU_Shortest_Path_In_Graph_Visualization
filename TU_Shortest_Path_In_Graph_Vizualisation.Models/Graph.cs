@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
@@ -10,8 +11,6 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         private const float CENTER_Y = 195f;
         private const int DEFAULT_NODE_NUMBER = 1;
         private const bool DEFAULT_DESTINATION_IS_VISITED = false;
-
-        private List<INode> nodes;
 
         public Graph()
         {
@@ -37,6 +36,8 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             private set => this.nodes = (List<INode>)value;
         }
 
+        private List<INode> nodes;
+
         public INode Source { get; set; }
 
         public INode Destination { get; set; }
@@ -45,6 +46,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
 
         public bool DestinationIsVisited { get; private set; }
 
+        //Create a node from a already existing one and add it to the list of nodes.
         public INode AddExistingNode(int layer, int nodeNumber, float centerX, float centerY)
         {
             INode node = new Node(nodeNumber, layer, new Point(centerX, centerY));
@@ -54,6 +56,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             return node;
         }
 
+        //Create a new link and call AddLink method of the 2 nodes
         public ILink AddLink(INode node1, INode node2, int weight)
         {
             ILink link = new Link(node1, node2, weight);
@@ -64,6 +67,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             return link;
         }
 
+        //Create a new node with the default center, add it to the list of nodes and increase the current node number.
         public INode AddNode(int layer)
         {
             INode node = new Node(this.CurrentNodeNumber, layer, new Point(CENTER_X, CENTER_Y));
@@ -75,6 +79,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             return node;
         }
 
+        //Create a new node with a specified center, add it to the list of nodes and increase the current node number.
         public INode AddNode(int layer, IPoint center)
         {
             INode node = new Node(this.CurrentNodeNumber, layer, center);
@@ -86,6 +91,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             return node;
         }
 
+        //Find a specified link and remove it from the 2 nodes lists of connected links
         public void RemoveLink(ILink link)
         {
             foreach (INode node in this.Nodes)
@@ -103,6 +109,8 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             }
         }
 
+        //Remove a node from the list of nodes.
+        //Than remove all links linked to than node from that and the other nodes lists of connected links
         public void RemoveNode(INode node)
         {
             this.nodes.Remove(node);
@@ -126,6 +134,14 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             } 
         }
 
+        //Set destination is visited to false and current node to null
+        public void Step0()
+        {
+            this.DestinationIsVisited = DEFAULT_DESTINATION_IS_VISITED;
+            this.DijkstraCurrentNode = null;
+        }
+
+        //Foreach node in the list of nodes reset its parameters
         public void Step1()
         {
             foreach (INode node in this.Nodes)
@@ -134,6 +150,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             }
         }
 
+        //Set the source's destination from source to 0, set current node to the source node 
         public void Step2()
         {
             this.Source.DistanceFromSource = 0;
@@ -141,6 +158,9 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             this.DijkstraCurrentNode = this.Source;
         }
 
+        //Find all connected nodes to the current node and if each of them is not visited find it's tenative distance.
+        //If the tenative distance is less than it's current distance from source than distance from source becomes the tenative distance 
+        //and it's previous node becomes the current node.
         public void Step3()
         {
             foreach (ILink link in this.DijkstraCurrentNode.ConnectedLinks)
@@ -168,16 +188,19 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             }
         }
 
+        //Set the current node as visited
         public void Step4()
         {
             this.DijkstraCurrentNode.IsVisited = true;
         }
 
+        //Set the destination is visited
         public void Step5()
         {
             this.DestinationIsVisited = this.Destination.IsVisited;
         }
 
+        //Take the node with the shortest distance from source that is not visited and set it sa current node 
         public void Step6()
         {
             this.DijkstraCurrentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).ToArray()[0];

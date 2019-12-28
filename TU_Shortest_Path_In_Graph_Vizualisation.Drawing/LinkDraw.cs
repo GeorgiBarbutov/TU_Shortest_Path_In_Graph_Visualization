@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+
 using TU_Shortest_Path_In_Graph_Vizualisation.Drawing.Contracts;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
@@ -11,13 +12,14 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Drawing
         private const int NUMBER_SIZE = 10;
         private const int NUMBER_CENTER_OFFSET = 20;
 
-        public ILink Link { get; private set; }
-
         public LinkDraw(ILink link)
         {
             this.Link = link;
         }
 
+        public ILink Link { get; private set; }
+
+        //Create a Pen object, draw a line between the centers of the two connected nodes and than draw the weight number
         public void Draw(Graphics graphics, Color color)
         {
             Pen pen = new Pen(color, OUTLINE_WIDTH);
@@ -30,6 +32,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Drawing
             DrawWeight(graphics, color);
         }
 
+        //Create a Font and a Brush object and draw the number just above the middle of the line
         private void DrawWeight(Graphics graphics, Color color)
         {
             Font font = new Font(NUMBER_FONT, NUMBER_SIZE);

@@ -5,6 +5,7 @@
         INode DijkstraCurrentNode { get; }
         bool DestinationIsVisited { get; }
 
+        void Step0();
         void Step1();
         void Step2();
         void Step3();

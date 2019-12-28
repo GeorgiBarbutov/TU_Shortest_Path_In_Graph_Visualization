@@ -3,12 +3,13 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using TU_Shortest_Path_In_Graph_Visualization.IO;
+
 using TU_Shortest_Path_In_Graph_Visualization.IO.Contracts;
 using TU_Shortest_Path_In_Graph_Vizualisation.Drawing;
 using TU_Shortest_Path_In_Graph_Vizualisation.Drawing.Contracts;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
+
 using Point = TU_Shortest_Path_In_Graph_Vizualisation.Models.Point;
 
 namespace TU_Shortest_Path_In_Graph_Visualization
@@ -17,13 +18,13 @@ namespace TU_Shortest_Path_In_Graph_Visualization
     {
         private const int DEFAULT_CURRENT_MAX_LAYER = 0;
         private const int MINIMUM_RANDOM_WEIGHT = 1;
-        private const int MAXIMUM_RANDOM_WEIGHT = 100;
+        private const int MAXIMUM_RANDOM_WEIGHT = 50;
 
         private IGraph graph;
         private INodeDraw selectedNode;
         private ILinkDraw selectedLink;
         private int currentMaxLayer;
-        private Graphics graphics;
+        private readonly Graphics graphics;
         private int mouseDownXCoordinate;
         private int mouseDownYCoordinate;
         private readonly IExporter exporter;
@@ -31,13 +32,13 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private INodeDraw source;
         private INodeDraw destination;
 
-        public GraphCreator()
+        public GraphCreator(IGraph graph, IExporter exporter, IImporter importer)
         {
             InitializeComponent();
 
-            this.graph = new Graph();
-            this.exporter = new Exporter();
-            this.importer = new Importer();
+            this.graph = graph;
+            this.exporter = exporter;
+            this.importer = importer;
             this.selectedLink = null;
             this.selectedNode = null;
             this.currentMaxLayer = DEFAULT_CURRENT_MAX_LAYER;
@@ -47,6 +48,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.graphics = this.Visualization.CreateGraphics();
         }
 
+        //Draws all the links then all the nodes
         private void RedrawPanel()
         {
             this.Visualization.Refresh();
@@ -91,6 +93,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //Resets link related values
         private void DeselectLink()
         {
             this.selectedLink = null;
@@ -99,6 +102,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.WeightNumericUpDown.Value = 0;
         }
 
+        //Increases current max layer, calles AddNode method in graph, deselects node and link and redraws panel.
         private void AddNodeButton_Click(object sender, EventArgs e)
         {
             this.currentMaxLayer += 1;
@@ -111,6 +115,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             RedrawPanel();
         }
 
+        //If a node is selected -> calles remove node method in graph.
+        //Than resets source and destination and selected node if any, redraws panel.
         private void RemoveNodeButton_Click(object sender, EventArgs e)
         {
             if (this.selectedNode != null)
@@ -135,6 +141,13 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //If a mouse button is presed saves coordinates of cursor. 
+        //If its the left mouse button visually deselect link or node if any.
+        //Than check if cursor is on any node.
+        //If true than increase current layer, deselect link, set node to selected node change its layer and redraw it in red.
+        //If false then check if currsor is on any link
+        //If true then deselect node, set link as selected link, redraw it and set its values from input.
+        //If cursor is not on any link or node then deselect currently selected node and link if any
         private void Visualization_MouseDown(object sender, MouseEventArgs e)
         {
             this.mouseDownXCoordinate = e.X;
@@ -227,11 +240,13 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //Redraws panel
         private void Visualization_MouseUp(object sender, MouseEventArgs e)
         {
             RedrawPanel();
         }
 
+        //If there is a selected node and the left mouse button is pressed and we move the mouse we visually move and redraw node
         private void Visualization_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.selectedNode != null && e.Button == MouseButtons.Left)
@@ -247,6 +262,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //Check if inputed nodes both exist and are different and a link doesn't already exist between them.
+        //If true call AddLink method in graph and redraw panel.
         private void AddLinkButton_Click(object sender, EventArgs e)
         {
             INode node1 = this.graph.Nodes.FirstOrDefault(n => n.NodeNumber == this.Node1NumericUpDown.Value);
@@ -270,6 +287,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //If a link is selected deselect it and then call RemoveLink method in graph. Than redraw the panel.
         private void RemoveLinkButton_Click(object sender, EventArgs e)
         {
             if (this.selectedLink != null)
@@ -282,6 +300,12 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //If there is a selected link check if inputed nodes both exist and are different 
+        //and a link doesn't already exist between them.
+        //If it doesn't call RemoveLink in graph with than call AddLink method in graph and set it as the selected link 
+        //and redraw panel.
+        //If a link already exists then check if new and old weights are different. 
+        //If they are change the weight and redraw panel.
         private void EditLinkButton_Click(object sender, EventArgs e)
         {
             if(this.selectedLink != null)
@@ -313,6 +337,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //Open a save file dialog window and then export the graph using th exporter to the specified path. 
         private void SaveGraphButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -333,6 +358,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             saveFileDialog.Dispose();
         }
 
+        //Open a open file dialog windowand then import the graph from the specified path using importer.
+        //Deselect link, node, source, destination, then set source and destination from the loaded graph. Redraw panel.
         private void LoadGraphButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -351,6 +378,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 this.selectedNode = null;
                 DeselectLink();
+                this.source = null;
+                this.destination = null;
 
                 if (this.graph.Source != null)
                 {
@@ -367,11 +396,16 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             openFileDialog.Dispose();
         }
 
+        //Set the maximum possible links depending on the nodes of the random graph generator.
         private void RandomNodesUpDown_ValueChanged(object sender, EventArgs e)
         {
             this.RandomLinksUpDown.Maximum = this.RandomNodesUpDown.Value * ((this.RandomNodesUpDown.Value - 1) / 2);
         }
 
+        //Get the inputed values for nodes and links. Delete the current graph. 
+        //Create random non overlaping nodes and add them to the new graph.
+        //Create random non existant links with random weights between existing nodes and add them to the graph.
+        //Than deselect everything and redraw the panel.
         private void GenerateRandomButton_Click(object sender, EventArgs e)
         {
             decimal nodesCount = this.RandomNodesUpDown.Value;
@@ -431,9 +465,17 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 }
             }
 
+            DeselectLink();
+            this.selectedNode = null;
+            this.graph.Source = null;
+            this.graph.Destination = null;
+            this.source = null;
+            this.destination = null;
+
             RedrawPanel();
         }
 
+        //Checks if 2 nodes with specified centers are overlaping
         private bool CheckDistanceBetweenCenters(IPoint point1, IPoint point2)
         {
             double distance = Math.Sqrt(Math.Abs(point1.X - point2.X) * Math.Abs(point1.X - point2.X) + 
@@ -442,6 +484,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             return distance <= 2 * Node.NODE_SIZE;
         }
 
+        //If source and destination are specified open a new DijkstraAlgorithm form
+        //If not display a message box.
         private void SimulateAlgorithmButton_Click(object sender, EventArgs e)
         {
             if(this.graph.Source != null && this.graph.Destination != null)
@@ -458,6 +502,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //If there is a selected node deselect source if any. If selected node is the destination deselect the destination.
+        //Set the source to the selected node and redraw it in blue.
         private void SetSourceButton_Click(object sender, EventArgs e)
         {
             if(this.selectedNode != null)
@@ -480,6 +526,8 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
+        //If there is a selected node deselect destination if any. If selected node is the source deselect the source.
+        //Set the destination to the selected node and redraw it in green.
         private void SetDestinationButton_Click(object sender, EventArgs e)
         {
             if (this.selectedNode != null)
