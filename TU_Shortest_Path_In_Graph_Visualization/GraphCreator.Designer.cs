@@ -69,7 +69,7 @@
             // 
             // AddLinkButton
             // 
-            this.AddLinkButton.Location = new System.Drawing.Point(412, 533);
+            this.AddLinkButton.Location = new System.Drawing.Point(380, 533);
             this.AddLinkButton.Name = "AddLinkButton";
             this.AddLinkButton.Size = new System.Drawing.Size(130, 59);
             this.AddLinkButton.TabIndex = 2;
@@ -89,7 +89,7 @@
             // 
             // RemoveLinkButton
             // 
-            this.RemoveLinkButton.Location = new System.Drawing.Point(412, 628);
+            this.RemoveLinkButton.Location = new System.Drawing.Point(380, 627);
             this.RemoveLinkButton.Name = "RemoveLinkButton";
             this.RemoveLinkButton.Size = new System.Drawing.Size(132, 59);
             this.RemoveLinkButton.TabIndex = 4;
@@ -99,7 +99,7 @@
             // 
             // EditLinkButton
             // 
-            this.EditLinkButton.Location = new System.Drawing.Point(558, 533);
+            this.EditLinkButton.Location = new System.Drawing.Point(528, 533);
             this.EditLinkButton.Name = "EditLinkButton";
             this.EditLinkButton.Size = new System.Drawing.Size(132, 59);
             this.EditLinkButton.TabIndex = 5;
@@ -109,7 +109,7 @@
             // 
             // LoadGraphButton
             // 
-            this.LoadGraphButton.Location = new System.Drawing.Point(1192, 628);
+            this.LoadGraphButton.Location = new System.Drawing.Point(1118, 627);
             this.LoadGraphButton.Name = "LoadGraphButton";
             this.LoadGraphButton.Size = new System.Drawing.Size(132, 59);
             this.LoadGraphButton.TabIndex = 6;
@@ -119,7 +119,7 @@
             // 
             // SaveGraphButton
             // 
-            this.SaveGraphButton.Location = new System.Drawing.Point(1192, 533);
+            this.SaveGraphButton.Location = new System.Drawing.Point(1118, 533);
             this.SaveGraphButton.Name = "SaveGraphButton";
             this.SaveGraphButton.Size = new System.Drawing.Size(132, 59);
             this.SaveGraphButton.TabIndex = 7;
@@ -129,7 +129,7 @@
             // 
             // SimulateAlgorithmButton
             // 
-            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(883, 533);
+            this.SimulateAlgorithmButton.Location = new System.Drawing.Point(843, 533);
             this.SimulateAlgorithmButton.Name = "SimulateAlgorithmButton";
             this.SimulateAlgorithmButton.Size = new System.Drawing.Size(132, 59);
             this.SimulateAlgorithmButton.TabIndex = 8;
@@ -139,7 +139,7 @@
             // 
             // Node1NumericUpDown
             // 
-            this.Node1NumericUpDown.Location = new System.Drawing.Point(629, 634);
+            this.Node1NumericUpDown.Location = new System.Drawing.Point(604, 632);
             this.Node1NumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -151,7 +151,7 @@
             // 
             // Node2NumericUpDown
             // 
-            this.Node2NumericUpDown.Location = new System.Drawing.Point(629, 665);
+            this.Node2NumericUpDown.Location = new System.Drawing.Point(604, 665);
             this.Node2NumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -163,7 +163,7 @@
             // 
             // WeightNumericUpDown
             // 
-            this.WeightNumericUpDown.Location = new System.Drawing.Point(550, 664);
+            this.WeightNumericUpDown.Location = new System.Drawing.Point(528, 664);
             this.WeightNumericUpDown.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -176,7 +176,7 @@
             // NodesLabel
             // 
             this.NodesLabel.AutoSize = true;
-            this.NodesLabel.Location = new System.Drawing.Point(626, 614);
+            this.NodesLabel.Location = new System.Drawing.Point(601, 612);
             this.NodesLabel.Name = "NodesLabel";
             this.NodesLabel.Size = new System.Drawing.Size(49, 17);
             this.NodesLabel.TabIndex = 12;
@@ -185,7 +185,7 @@
             // WeightLabel
             // 
             this.WeightLabel.AutoSize = true;
-            this.WeightLabel.Location = new System.Drawing.Point(547, 644);
+            this.WeightLabel.Location = new System.Drawing.Point(525, 644);
             this.WeightLabel.Name = "WeightLabel";
             this.WeightLabel.Size = new System.Drawing.Size(52, 17);
             this.WeightLabel.TabIndex = 13;
@@ -197,7 +197,7 @@
             this.Visualization.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Visualization.Location = new System.Drawing.Point(12, 12);
             this.Visualization.Name = "Visualization";
-            this.Visualization.Size = new System.Drawing.Size(1312, 472);
+            this.Visualization.Size = new System.Drawing.Size(1238, 472);
             this.Visualization.TabIndex = 15;
             this.Visualization.TabStop = false;
             this.Visualization.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseDown);
@@ -206,7 +206,7 @@
             // 
             // GenerateRandomButton
             // 
-            this.GenerateRandomButton.Location = new System.Drawing.Point(819, 628);
+            this.GenerateRandomButton.Location = new System.Drawing.Point(765, 628);
             this.GenerateRandomButton.Name = "GenerateRandomButton";
             this.GenerateRandomButton.Size = new System.Drawing.Size(132, 59);
             this.GenerateRandomButton.TabIndex = 16;
@@ -216,7 +216,7 @@
             // 
             // RandomLinksUpDown
             // 
-            this.RandomLinksUpDown.Location = new System.Drawing.Point(1021, 665);
+            this.RandomLinksUpDown.Location = new System.Drawing.Point(967, 665);
             this.RandomLinksUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -229,7 +229,7 @@
             // RandomLinksLabel
             // 
             this.RandomLinksLabel.AutoSize = true;
-            this.RandomLinksLabel.Location = new System.Drawing.Point(974, 664);
+            this.RandomLinksLabel.Location = new System.Drawing.Point(912, 664);
             this.RandomLinksLabel.Name = "RandomLinksLabel";
             this.RandomLinksLabel.Size = new System.Drawing.Size(41, 17);
             this.RandomLinksLabel.TabIndex = 18;
@@ -238,7 +238,7 @@
             // RandomNodesLabel
             // 
             this.RandomNodesLabel.AutoSize = true;
-            this.RandomNodesLabel.Location = new System.Drawing.Point(966, 634);
+            this.RandomNodesLabel.Location = new System.Drawing.Point(912, 634);
             this.RandomNodesLabel.Name = "RandomNodesLabel";
             this.RandomNodesLabel.Size = new System.Drawing.Size(49, 17);
             this.RandomNodesLabel.TabIndex = 19;
@@ -246,7 +246,7 @@
             // 
             // RandomNodesUpDown
             // 
-            this.RandomNodesUpDown.Location = new System.Drawing.Point(1021, 634);
+            this.RandomNodesUpDown.Location = new System.Drawing.Point(967, 634);
             this.RandomNodesUpDown.Maximum = new decimal(new int[] {
             200,
             0,
@@ -284,7 +284,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1336, 746);
+            this.ClientSize = new System.Drawing.Size(1262, 746);
             this.Controls.Add(this.SetDestinationButton);
             this.Controls.Add(this.SetSourceButton);
             this.Controls.Add(this.RandomNodesUpDown);

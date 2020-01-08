@@ -49,13 +49,13 @@
             this.Visualization.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Visualization.Location = new System.Drawing.Point(12, 12);
             this.Visualization.Name = "Visualization";
-            this.Visualization.Size = new System.Drawing.Size(1312, 472);
+            this.Visualization.Size = new System.Drawing.Size(1238, 472);
             this.Visualization.TabIndex = 16;
             this.Visualization.TabStop = false;
             // 
             // NextStepButton
             // 
-            this.NextStepButton.Location = new System.Drawing.Point(529, 561);
+            this.NextStepButton.Location = new System.Drawing.Point(474, 561);
             this.NextStepButton.Name = "NextStepButton";
             this.NextStepButton.Size = new System.Drawing.Size(132, 59);
             this.NextStepButton.TabIndex = 18;
@@ -97,7 +97,7 @@
             // 
             this.LegendLabel.AutoSize = true;
             this.LegendLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.LegendLabel.Location = new System.Drawing.Point(940, 497);
+            this.LegendLabel.Location = new System.Drawing.Point(893, 497);
             this.LegendLabel.Name = "LegendLabel";
             this.LegendLabel.Size = new System.Drawing.Size(60, 18);
             this.LegendLabel.TabIndex = 22;
@@ -105,7 +105,7 @@
             // 
             // GoBackButton
             // 
-            this.GoBackButton.Location = new System.Drawing.Point(667, 561);
+            this.GoBackButton.Location = new System.Drawing.Point(612, 561);
             this.GoBackButton.Name = "GoBackButton";
             this.GoBackButton.Size = new System.Drawing.Size(132, 59);
             this.GoBackButton.TabIndex = 23;
@@ -141,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1336, 746);
+            this.ClientSize = new System.Drawing.Size(1262, 746);
             this.Controls.Add(this.CurrentNodeLabel);
             this.Controls.Add(this.ShortestPathLabel);
             this.Controls.Add(this.GoBackButton);
