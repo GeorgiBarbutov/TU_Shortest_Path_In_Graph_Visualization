@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 using TU_Shortest_Path_In_Graph_Vizualisation.Drawing;
@@ -167,17 +168,22 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             INode previousNode = this.graph.DijkstraCurrentNode;
 
-            List<string> nodes = new List<string>();
+            Stack<string> nodes = new Stack<string>();
 
             while (previousNode != null)
             {
-                nodes.Add(previousNode.NodeNumber.ToString());
+                nodes.Push(previousNode.NodeNumber.ToString());
                 previousNode = previousNode.PreviousNode;
             }
 
-            nodes.Reverse();
+            StringBuilder stringBuilder = new StringBuilder(nodes.Pop());
 
-            return String.Join(" -> ", nodes);
+            while(nodes.Count != 0)
+            {
+                stringBuilder.Append($" -> {nodes.Pop()}");
+            }
+
+            return stringBuilder.ToString();
         }
 
         //Finds all unvisited nodes and then transfers their data into a string

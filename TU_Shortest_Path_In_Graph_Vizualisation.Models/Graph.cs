@@ -203,7 +203,7 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         //Take the node with the shortest distance from source that is not visited and set it sa current node 
         public void Step6()
         {
-            this.DijkstraCurrentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).ToArray()[0];
+            this.DijkstraCurrentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).First();
         }
     }
 }
