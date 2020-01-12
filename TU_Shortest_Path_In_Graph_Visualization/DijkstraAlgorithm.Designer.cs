@@ -52,6 +52,7 @@
             this.Visualization.Size = new System.Drawing.Size(1238, 472);
             this.Visualization.TabIndex = 16;
             this.Visualization.TabStop = false;
+            this.Visualization.Paint += new System.Windows.Forms.PaintEventHandler(this.Visualization_Paint);
             // 
             // NextStepButton
             // 
@@ -79,9 +80,9 @@
             this.UnvisitedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.UnvisitedLabel.Location = new System.Drawing.Point(14, 706);
             this.UnvisitedLabel.Name = "UnvisitedLabel";
-            this.UnvisitedLabel.Size = new System.Drawing.Size(83, 20);
+            this.UnvisitedLabel.Size = new System.Drawing.Size(113, 20);
             this.UnvisitedLabel.TabIndex = 20;
-            this.UnvisitedLabel.Text = "Unvisited:";
+            this.UnvisitedLabel.Text = "Unvisited: [   ]";
             // 
             // VisitedLabel
             // 

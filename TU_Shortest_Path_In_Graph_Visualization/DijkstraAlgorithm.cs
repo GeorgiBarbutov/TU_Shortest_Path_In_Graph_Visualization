@@ -19,7 +19,6 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private static readonly string[] stepText = new string[] { " Step 1: Set all nodes as unvisited. Set the distance to the source of all nodes to infinity. Set previous node of all nodes to null.", "Step 2: Set the distance to source of the source node to 0. Set the source node as current node", "Step 3: For the current node, consider all of its unvisited neighbours and calculate their tentative distances through the current node.\nCompare the newly calculated tentative distance to the current assigned value and assign the smaller one.\nIf a new value is assigned change previous node to the current node.", "Step 4: Set the current node as visited and remove it from the unvisited list. A visited node will never be checked again." , "Step 5: If the destination node has been set to visited than stop the algorithm." , "Step 6: Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new current node, \nand go back to step 3." , "Final Step: After the end trace back through the previous nodes starting from the destination and ending with the source. \nThat is your shortest path." };
 
         private readonly IGraph graph;
-        private Graphics graphics;
         private int currentStep;
         private bool isFinished;
 
@@ -32,22 +31,18 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.isFinished = DEFAULT_IS_FINISHED;
 
             this.graph.Step0();
-
-            this.graphics = this.Visualization.CreateGraphics();
         }
 
         //Draws all the links, then draws all the noodes, then draws tenative values if the current step is one or more. 
-        public void DrawPanel()
+        public void DrawPanel(Graphics graphics)
         {
-            this.Visualization.Refresh();
-
             foreach (INode node in this.graph.Nodes.OrderBy(n => n.Layer))
             {
                 foreach (ILink link in node.ConnectedLinks)
                 {
                     ILinkDraw linkDraw = new LinkDraw(link);
 
-                    linkDraw.Draw(this.graphics, Color.Black);
+                    linkDraw.Draw(graphics, Color.Black);
                 }
             }
 
@@ -57,24 +52,24 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 if (this.graph.DijkstraCurrentNode == node)
                 {
-                    nodeDraw.Draw(this.graphics, Color.Red);
+                    nodeDraw.Draw(graphics, Color.Red);
                 }
                 else if (node == this.graph.Source)
                 {
-                    nodeDraw.Draw(this.graphics, Color.Blue);
+                    nodeDraw.Draw(graphics, Color.Blue);
                 }
-                else if (node == this.graph.Destination)
+                else if (node == graph.Destination)
                 {
-                    nodeDraw.Draw(this.graphics, Color.Green);
+                    nodeDraw.Draw(graphics, Color.Green);
                 }
                 else
                 {
-                    nodeDraw.Draw(this.graphics, Color.Black);
+                    nodeDraw.Draw(graphics, Color.Black);
                 }
 
                 if(this.currentStep >= 1)
                 {
-                    nodeDraw.DrawTenativeValue(this.graphics, Color.Magenta);
+                    nodeDraw.DrawTenativeValue(graphics, Color.Magenta);
                 }
             }
         }
@@ -105,7 +100,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     UpdateUnvisitedList();
 
-                    DrawPanel();
+                    this.Visualization.Refresh();
                 } 
                 else if (this.currentStep == 2)
                 {
@@ -115,7 +110,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     this.CurrentNodeLabel.Text = $"Current Node: {this.graph.DijkstraCurrentNode.NodeNumber}";
 
-                    DrawPanel();
+                    this.Visualization.Refresh();
                 }
                 else if (this.currentStep == 3)
                 {
@@ -123,7 +118,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     this.graph.Step3();
 
-                    DrawPanel();
+                    this.Visualization.Refresh();
 
                     UpdateUnvisitedList();
                 }
@@ -155,7 +150,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     this.CurrentNodeLabel.Text = $"Current Node: {this.graph.DijkstraCurrentNode.NodeNumber}";
 
-                    DrawPanel();
+                    this.Visualization.Refresh();
 
                     this.currentStep = 2;
                 }
@@ -221,11 +216,9 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
         }
 
-        //Disposes of graphics and then of the form itself
+        //Disposes of the form itself
         private void GoBackButton_Click(object sender, EventArgs e)
         {
-            this.graphics.Dispose();
-
             this.Dispose();
         }
 
@@ -233,6 +226,12 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private void DijkstraAlgorithm_Load(object sender, EventArgs e)
         {
             this.LegendLabel.Text = "Legend:\n\nBlue Node - Source\nGreen Node - Destination\nRed Node - Current Node\nUn/visited Nodes - (<nodeNumber>, <previousNode>)";
+        }
+
+        //Draws the Panel
+        private void Visualization_Paint(object sender, PaintEventArgs e)
+        {
+            DrawPanel(e.Graphics);
         }
     }
 }

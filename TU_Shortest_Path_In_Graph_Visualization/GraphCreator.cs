@@ -24,7 +24,6 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         private INodeDraw selectedNode;
         private ILinkDraw selectedLink;
         private int currentMaxLayer;
-        private readonly Graphics graphics;
         private int mouseDownXCoordinate;
         private int mouseDownYCoordinate;
         private readonly IExporter exporter;
@@ -44,15 +43,11 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.currentMaxLayer = DEFAULT_CURRENT_MAX_LAYER;
             this.source = null;
             this.destination = null;
-
-            this.graphics = this.Visualization.CreateGraphics();
         }
 
         //Draws all the links then all the nodes
-        private void RedrawPanel()
+        private void DrawPanel(Graphics graphics)
         {
-            this.Visualization.Refresh();
-
             foreach (INode node in this.graph.Nodes.OrderBy(n => n.Layer))
             {
                 foreach (ILink link in node.ConnectedLinks)
@@ -61,11 +56,11 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     if (this.selectedLink != null && link == this.selectedLink.Link)
                     {
-                        linkDraw.Draw(this.graphics, Color.Red);
+                        linkDraw.Draw(graphics, Color.Red);
                     }
                     else
                     {
-                        linkDraw.Draw(this.graphics, Color.Black);
+                        linkDraw.Draw(graphics, Color.Black);
                     }
                 }
             }
@@ -76,19 +71,19 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 if (this.selectedNode != null && node == this.selectedNode.Node)
                 {
-                    nodeDraw.Draw(this.graphics, Color.Red);
+                    nodeDraw.Draw(graphics, Color.Red);
                 }
                 else if (this.source != null && node == this.source.Node)
                 {
-                    nodeDraw.Draw(this.graphics, Color.Blue);
+                    nodeDraw.Draw(graphics, Color.Blue);
                 }
                 else if (this.destination != null && node == this.destination.Node)
                 {
-                    nodeDraw.Draw(this.graphics, Color.Green);
+                    nodeDraw.Draw(graphics, Color.Green);
                 }
                 else
                 {
-                    nodeDraw.Draw(this.graphics, Color.Black);
+                    nodeDraw.Draw(graphics, Color.Black);
                 }
             }
         }
@@ -112,7 +107,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.selectedNode = null;
             DeselectLink();
 
-            RedrawPanel();
+            this.Visualization.Refresh();
         }
 
         //If a node is selected -> calles remove node method in graph.
@@ -137,7 +132,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 this.selectedNode = null;
 
-                RedrawPanel();
+                this.Visualization.Refresh();
             }
         }
 
@@ -161,21 +156,21 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     if (this.source != null && this.selectedNode.Node == this.source.Node)
                     {
-                        this.selectedNode.Draw(this.graphics, Color.Blue);
+                        this.selectedNode.Draw(this.Visualization.CreateGraphics(), Color.Blue);
                     }
                     else if (this.destination != null && this.selectedNode.Node == this.destination.Node)
                     {
-                        this.selectedNode.Draw(this.graphics, Color.Green);
+                        this.selectedNode.Draw(this.Visualization.CreateGraphics(), Color.Green);
                     }
                     else
                     {
-                        this.selectedNode.Draw(this.graphics, Color.Black);
+                        this.selectedNode.Draw(this.Visualization.CreateGraphics(), Color.Black);
                     }
                 }
 
                 if (this.selectedLink != null)
                 {
-                    this.selectedLink.Draw(this.graphics, Color.Black);
+                    this.selectedLink.Draw(this.Visualization.CreateGraphics(), Color.Black);
                 }
 
                 bool cursorIsOnAnyLinkOrNode = false;
@@ -193,7 +188,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                         this.selectedNode.Node.ChangeCurrentLayer(this.currentMaxLayer);
 
-                        this.selectedNode.Draw(this.graphics, Color.Red);
+                        this.selectedNode.Draw(this.Visualization.CreateGraphics(), Color.Red);
 
                         cursorIsOnAnyLinkOrNode = true;
 
@@ -213,7 +208,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                                 this.selectedLink = new LinkDraw(link);
                                 this.selectedNode = null;
 
-                                this.selectedLink.Draw(this.graphics, Color.Red);
+                                this.selectedLink.Draw(this.Visualization.CreateGraphics(), Color.Red);
 
                                 this.Node1NumericUpDown.Value = this.selectedLink.Link.ConnectedNodes.Item1.NodeNumber;
                                 this.Node2NumericUpDown.Value = this.selectedLink.Link.ConnectedNodes.Item2.NodeNumber;
@@ -243,7 +238,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         //Redraws panel
         private void Visualization_MouseUp(object sender, MouseEventArgs e)
         {
-            RedrawPanel();
+            this.Visualization.Refresh();
         }
 
         //If there is a selected node and the left mouse button is pressed and we move the mouse we visually move and redraw node
@@ -251,11 +246,11 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             if (this.selectedNode != null && e.Button == MouseButtons.Left)
             {
-                this.selectedNode.Draw(this.graphics, Color.White);
+                this.selectedNode.Draw(this.Visualization.CreateGraphics(), Color.White);
 
                 this.selectedNode.Node.Move(e.X - this.mouseDownXCoordinate, e.Y - this.mouseDownYCoordinate);
 
-                this.selectedNode.Draw(this.graphics, Color.Red);
+                this.selectedNode.Draw(this.Visualization.CreateGraphics(), Color.Red);
 
                 this.mouseDownXCoordinate = e.X;
                 this.mouseDownYCoordinate = e.Y;
@@ -282,7 +277,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                     this.selectedNode = null;
                     DeselectLink();
 
-                    RedrawPanel();
+                    this.Visualization.Refresh();
                 }
             }
         }
@@ -296,7 +291,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                 DeselectLink();
 
-                RedrawPanel();
+                this.Visualization.Refresh();
             }
         }
 
@@ -325,13 +320,13 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                         this.graph.RemoveLink(this.selectedLink.Link);
                         this.selectedLink = new LinkDraw(this.graph.AddLink(newNode1, newNode2, newWeight));
 
-                        RedrawPanel();
+                        this.Visualization.Refresh();
                     }
                     else if (linkExists && newWeight != this.selectedLink.Link.Weight)
                     {
                         this.selectedLink.Link.ChangeWeight(newWeight);
 
-                        RedrawPanel();
+                        this.Visualization.Refresh();
                     }
                 }
             }
@@ -390,7 +385,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                     this.destination = new NodeDraw(this.graph.Destination);
                 }
 
-                RedrawPanel();
+                this.Visualization.Refresh();
             }
 
             openFileDialog.Dispose();
@@ -472,7 +467,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.source = null;
             this.destination = null;
 
-            RedrawPanel();
+            this.Visualization.Refresh();
         }
 
         //Checks if 2 nodes with specified centers are overlaping
@@ -490,11 +485,11 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             if(this.graph.Source != null && this.graph.Destination != null)
             {
-                DijkstraAlgorithm djikstraAlgorithm = new DijkstraAlgorithm(this.graph);
+                DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm(this.graph);
 
-                djikstraAlgorithm.Show();
+                dijkstraAlgorithm.ShowDialog();
 
-                djikstraAlgorithm.DrawPanel();
+                dijkstraAlgorithm.Dispose();
             }
             else
             {
@@ -510,7 +505,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             {
                 if(this.source != null && this.source.Node != null)
                 {
-                    this.source.Draw(this.graphics, Color.Black);
+                    this.source.Draw(this.Visualization.CreateGraphics(), Color.Black);
                 }
 
                 if(this.destination != null && this.selectedNode.Node == this.destination.Node)
@@ -522,7 +517,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 this.source = this.selectedNode;
                 this.graph.Source = this.source.Node;
 
-                this.source.Draw(this.graphics, Color.Blue);
+                this.source.Draw(this.Visualization.CreateGraphics(), Color.Blue);
             }
         }
 
@@ -534,7 +529,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             {
                 if (this.destination != null && this.destination.Node != null)
                 {
-                    this.destination.Draw(this.graphics, Color.Black);
+                    this.destination.Draw(this.Visualization.CreateGraphics(), Color.Black);
                 }
 
                 if (this.source != null && this.selectedNode.Node == this.source.Node)
@@ -546,8 +541,14 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 this.destination = this.selectedNode;
                 this.graph.Destination = this.destination.Node;
 
-                this.destination.Draw(this.graphics, Color.Green);
+                this.destination.Draw(this.Visualization.CreateGraphics(), Color.Green);
             }
+        }
+
+        //Draws the panel
+        private void Visualization_Paint(object sender, PaintEventArgs e)
+        {
+            DrawPanel(e.Graphics);
         }
     }
 }

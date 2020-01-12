@@ -12,6 +12,8 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
         private const int DEFAULT_NODE_NUMBER = 1;
         private const bool DEFAULT_DESTINATION_IS_VISITED = false;
 
+        private List<INode> nodes;
+
         public Graph()
         {
             this.Nodes = new List<INode>();
@@ -35,8 +37,6 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             get => this.nodes;
             private set => this.nodes = (List<INode>)value;
         }
-
-        private List<INode> nodes;
 
         public INode Source { get; set; }
 

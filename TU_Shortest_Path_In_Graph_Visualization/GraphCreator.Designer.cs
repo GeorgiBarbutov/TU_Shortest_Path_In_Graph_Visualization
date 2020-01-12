@@ -151,7 +151,7 @@
             // 
             // Node2NumericUpDown
             // 
-            this.Node2NumericUpDown.Location = new System.Drawing.Point(604, 665);
+            this.Node2NumericUpDown.Location = new System.Drawing.Point(604, 664);
             this.Node2NumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -200,6 +200,7 @@
             this.Visualization.Size = new System.Drawing.Size(1238, 472);
             this.Visualization.TabIndex = 15;
             this.Visualization.TabStop = false;
+            this.Visualization.Paint += new System.Windows.Forms.PaintEventHandler(this.Visualization_Paint);
             this.Visualization.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseDown);
             this.Visualization.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseMove);
             this.Visualization.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Visualization_MouseUp);
