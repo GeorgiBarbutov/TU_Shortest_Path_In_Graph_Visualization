@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using TU_Shortest_Path_In_Graph_Dijkstra;
+using TU_Shortest_Path_In_Graph_Dijkstra.Contracts;
 using TU_Shortest_Path_In_Graph_Vizualisation.Drawing;
 using TU_Shortest_Path_In_Graph_Vizualisation.Drawing.Contracts;
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
@@ -20,7 +22,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
         private static readonly string[] stepText = new string[] { " Step 1: Set all nodes as unvisited. Set the distance to the source of all nodes to infinity. Set previous node of all nodes to null.", "Step 2: Set the distance to source of the source node to 0. Set the source node as current node", "Step 3: For the current node, consider all of its unvisited neighbours and calculate their tentative distances through the current node.\nCompare the newly calculated tentative distance to the current assigned value and assign the smaller one.\nIf a new value is assigned change previous node to the current node.", "Step 4: Set the current node as visited and remove it from the unvisited list. A visited node will never be checked again." , "Step 5: If the destination node has been set to visited than stop the algorithm." , "Step 6: Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new current node, \nand go back to step 3. if no such node exists and destination has not been reached than stop the algorithm with no results." , "Final Step: After the end trace back through the previous nodes starting from the destination and ending with the source. \nThat is your shortest path.", "Final Step: Destination is not reachable." };
 
-        private readonly IGraph graph;
+        private readonly IDijkstra dijkstra;
         private int currentStep;
         private bool isFinished;
         private bool isReachable;
@@ -29,18 +31,19 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         {
             InitializeComponent();
 
-            this.graph = graph;
+            this.dijkstra = new Dijkstra(graph);
+
             this.currentStep = DEFAULT_CURRENT_STEP;
             this.isFinished = DEFAULT_IS_FINISHED;
             this.isReachable = DEFAULT_IS_REACHABLE;
 
-            this.graph.Step0();
+            this.dijkstra.Step0();
         }
 
         //Draws all the links, then draws all the nodes, then draws tenative values if the current step is one or more. 
         public void DrawPanel(Graphics graphics)
         {
-            foreach (INode node in this.graph.Nodes.OrderBy(n => n.Layer))
+            foreach (INode node in this.dijkstra.Graph.Nodes.OrderBy(n => n.Layer))
             {
                 foreach (ILink link in node.ConnectedLinks)
                 {
@@ -50,19 +53,19 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 }
             }
 
-            foreach (INode node in this.graph.Nodes.OrderBy(n => n.Layer))
+            foreach (INode node in this.dijkstra.Graph.Nodes.OrderBy(n => n.Layer))
             {
                 INodeDraw nodeDraw = new NodeDraw(node);
 
-                if (this.graph.DijkstraCurrentNode == node)
+                if (this.dijkstra.DijkstraCurrentNode == node)
                 {
                     nodeDraw.Draw(graphics, Color.Red);
                 }
-                else if (node == this.graph.Source)
+                else if (node == this.dijkstra.Graph.Source)
                 {
                     nodeDraw.Draw(graphics, Color.Blue);
                 }
-                else if (node == graph.Destination)
+                else if (node == this.dijkstra.Graph.Destination)
                 {
                     nodeDraw.Draw(graphics, Color.Green);
                 }
@@ -102,7 +105,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.graph.Step1();
+                    this.dijkstra.Step1();
 
                     UpdateUnvisitedList();
 
@@ -112,9 +115,9 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.graph.Step2();
+                    this.dijkstra.Step2();
 
-                    this.CurrentNodeLabel.Text = $"Current Node: {this.graph.DijkstraCurrentNode.NodeNumber}";
+                    this.CurrentNodeLabel.Text = $"Current Node: {this.dijkstra.DijkstraCurrentNode.NodeNumber}";
 
                     this.Visualization.Refresh();
                 }
@@ -122,7 +125,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.graph.Step3();
+                    this.dijkstra.Step3();
 
                     this.Visualization.Refresh();
 
@@ -132,7 +135,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.graph.Step4();
+                    this.dijkstra.Step4();
 
                     UpdateUnvisitedList();
                     UpdateVisitedList();
@@ -141,9 +144,9 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.graph.Step5();
+                    this.dijkstra.Step5();
 
-                    if (this.graph.DestinationIsVisited)
+                    if (this.dijkstra.DestinationIsVisited)
                     {
                         this.isFinished = true;
                     }
@@ -152,14 +155,14 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.isReachable = this.graph.Step6();
+                    this.isReachable = this.dijkstra.Step6();
 
                     if (!this.isReachable)
                     {
                         this.isFinished = true;
                     }
 
-                    this.CurrentNodeLabel.Text = $"Current Node: {this.graph.DijkstraCurrentNode.NodeNumber}";
+                    this.CurrentNodeLabel.Text = $"Current Node: {this.dijkstra.DijkstraCurrentNode.NodeNumber}";
 
                     this.Visualization.Refresh();
 
@@ -183,7 +186,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         //Navigates through all previous nodes starting from the destination and ending with source and then reverses the path
         private string GetShortestPath()
         {
-            INode previousNode = this.graph.DijkstraCurrentNode;
+            INode previousNode = this.dijkstra.DijkstraCurrentNode;
 
             Stack<string> nodes = new Stack<string>();
 
@@ -206,7 +209,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         //Finds all unvisited nodes and then transfers their data into a string
         private void UpdateUnvisitedList()
         {
-            string[] unvisitedStrings = this.graph.Nodes
+            string[] unvisitedStrings = this.dijkstra.Graph.Nodes
                 .Where(n => !n.IsVisited)
                 .Select(n => n.PreviousNode == null ? $"({n.NodeNumber.ToString()}, -)" : $"({n.NodeNumber.ToString()}, {n.PreviousNode.NodeNumber})")
                 .ToArray();
@@ -224,7 +227,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         //Finds all visited nodes and then transfers their data into a string
         private void UpdateVisitedList()
         {
-            string[] visitedStrings = this.graph.Nodes
+            string[] visitedStrings = this.dijkstra.Graph.Nodes
                 .Where(n => n.IsVisited)
                 .Select(n => n.PreviousNode == null ? $"({n.NodeNumber.ToString()}, -)" : $"({n.NodeNumber.ToString()}, {n.PreviousNode.NodeNumber})")
                 .ToArray();

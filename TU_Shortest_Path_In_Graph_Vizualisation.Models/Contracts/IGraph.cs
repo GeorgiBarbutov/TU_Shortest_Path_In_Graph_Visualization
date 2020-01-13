@@ -2,7 +2,7 @@
 
 namespace TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts
 {
-    public interface IGraph : IDijkstraSteps
+    public interface IGraph
     {
         int CurrentNodeNumber { get; }
         IReadOnlyList<INode> Nodes { get; }

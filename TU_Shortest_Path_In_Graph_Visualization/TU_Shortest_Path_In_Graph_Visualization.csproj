@@ -90,6 +90,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TU_Shortest_Path_In_Graph_Dijkstra\TU_Shortest_Path_In_Graph_Dijkstra.csproj">
+      <Project>{C46813B2-032A-463D-B376-CEA303E98470}</Project>
+      <Name>TU_Shortest_Path_In_Graph_Dijkstra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TU_Shortest_Path_In_Graph_Visualization.IO\TU_Shortest_Path_In_Graph_Visualization.IO.csproj">
       <Project>{099FC4F4-A106-4D24-920C-38B4912B9E93}</Project>
       <Name>TU_Shortest_Path_In_Graph_Visualization.IO</Name>

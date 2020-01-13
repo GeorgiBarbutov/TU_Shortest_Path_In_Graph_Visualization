@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_Vizualisation.Drawing", "..\TU_Shortest_Path_In_Graph_Vizualisation.Drawing\TU_Shortest_Path_In_Graph_Vizualisation.Drawing.csproj", "{0C055298-7C8B-43DB-B0BF-E3173B04FD8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TU_Shortest_Path_In_Graph_Dijkstra", "..\TU_Shortest_Path_In_Graph_Dijkstra\TU_Shortest_Path_In_Graph_Dijkstra.csproj", "{C46813B2-032A-463D-B376-CEA303E98470}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0C055298-7C8B-43DB-B0BF-E3173B04FD8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C055298-7C8B-43DB-B0BF-E3173B04FD8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C055298-7C8B-43DB-B0BF-E3173B04FD8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C46813B2-032A-463D-B376-CEA303E98470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C46813B2-032A-463D-B376-CEA303E98470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C46813B2-032A-463D-B376-CEA303E98470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C46813B2-032A-463D-B376-CEA303E98470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
