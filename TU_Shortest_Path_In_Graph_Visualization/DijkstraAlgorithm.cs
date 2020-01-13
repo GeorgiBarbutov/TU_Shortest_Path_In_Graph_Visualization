@@ -15,13 +15,15 @@ namespace TU_Shortest_Path_In_Graph_Visualization
     {
         private const int DEFAULT_CURRENT_STEP = 0;
         private const bool DEFAULT_IS_FINISHED = false;
+        private const bool DEFAULT_IS_REACHABLE = false;
         private const int MAX_UN_VISITED_NODES_TEXT = 14;
 
-        private static readonly string[] stepText = new string[] { " Step 1: Set all nodes as unvisited. Set the distance to the source of all nodes to infinity. Set previous node of all nodes to null.", "Step 2: Set the distance to source of the source node to 0. Set the source node as current node", "Step 3: For the current node, consider all of its unvisited neighbours and calculate their tentative distances through the current node.\nCompare the newly calculated tentative distance to the current assigned value and assign the smaller one.\nIf a new value is assigned change previous node to the current node.", "Step 4: Set the current node as visited and remove it from the unvisited list. A visited node will never be checked again." , "Step 5: If the destination node has been set to visited than stop the algorithm." , "Step 6: Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new current node, \nand go back to step 3." , "Final Step: After the end trace back through the previous nodes starting from the destination and ending with the source. \nThat is your shortest path." };
+        private static readonly string[] stepText = new string[] { " Step 1: Set all nodes as unvisited. Set the distance to the source of all nodes to infinity. Set previous node of all nodes to null.", "Step 2: Set the distance to source of the source node to 0. Set the source node as current node", "Step 3: For the current node, consider all of its unvisited neighbours and calculate their tentative distances through the current node.\nCompare the newly calculated tentative distance to the current assigned value and assign the smaller one.\nIf a new value is assigned change previous node to the current node.", "Step 4: Set the current node as visited and remove it from the unvisited list. A visited node will never be checked again." , "Step 5: If the destination node has been set to visited than stop the algorithm." , "Step 6: Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new current node, \nand go back to step 3. if no such node exists and destination has not been reached than stop the algorithm with no results." , "Final Step: After the end trace back through the previous nodes starting from the destination and ending with the source. \nThat is your shortest path.", "Final Step: Destination is not reachable." };
 
         private readonly IGraph graph;
         private int currentStep;
         private bool isFinished;
+        private bool isReachable;
 
         public DijkstraAlgorithm(IGraph graph)
         {
@@ -30,6 +32,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.graph = graph;
             this.currentStep = DEFAULT_CURRENT_STEP;
             this.isFinished = DEFAULT_IS_FINISHED;
+            this.isReachable = DEFAULT_IS_REACHABLE;
 
             this.graph.Step0();
         }
@@ -76,17 +79,19 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         }
 
         //if the algorithm isn't finished increses current step and updates labels and executes code for the specific step. 
-        //After it's finished gets the shortest path.
-        //Step1();
-        //Step2();
-        //while (true)
+        //After it's finished gets the shortest path or print unreachable destination.
+        //Step0(); //O(1)
+        //Step1(); //O(n)
+        //Step2(); //O(1)
+        //while (true) //O(n)
         //{
-        //    Step3();
-        //    Step4();
-        //    Step5(); // true -> break; false -> step6();
-        //    Step6(); //Step 6 -> Step 3
+        //    Step3(); O(n)
+        //    Step4(); O(1)
+        //    Step5(); // true -> break; false -> step6(); O(1)
+        //    Step6(); //Step 6 -> Step 3  O(n)
         //}
-        //Step7();
+        //Step7(); isReachable - true -> find path O(n), false -> print it's unreachable
+        //Total time complexity -> O(n^2), Total space complexity O(n^2) because we have a list of nodes each of whom has a list of links.
         private void NextStepButton_Click(object sender, System.EventArgs e)
         {
             if (!this.isFinished)
@@ -102,7 +107,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                     UpdateUnvisitedList();
 
                     this.Visualization.Refresh();
-                } 
+                }
                 else if (this.currentStep == 2)
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
@@ -138,7 +143,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
 
                     this.graph.Step5();
 
-                    if(this.graph.DestinationIsVisited)
+                    if (this.graph.DestinationIsVisited)
                     {
                         this.isFinished = true;
                     }
@@ -147,7 +152,12 @@ namespace TU_Shortest_Path_In_Graph_Visualization
                 {
                     this.StepsLabel.Text = stepText[this.currentStep - 1];
 
-                    this.graph.Step6();
+                    this.isReachable = this.graph.Step6();
+
+                    if (!this.isReachable)
+                    {
+                        this.isFinished = true;
+                    }
 
                     this.CurrentNodeLabel.Text = $"Current Node: {this.graph.DijkstraCurrentNode.NodeNumber}";
 
@@ -158,8 +168,15 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             }
             else
             {
-                this.StepsLabel.Text = stepText[this.currentStep + 1];
-                this.ShortestPathLabel.Text = GetShortestPath();
+                if (this.isReachable)
+                {
+                    this.StepsLabel.Text = stepText[stepText.Length - 2];
+                    this.ShortestPathLabel.Text = GetShortestPath();
+                }
+                else
+                {
+                    this.StepsLabel.Text = stepText[stepText.Length - 1];
+                }
             }
         }
 

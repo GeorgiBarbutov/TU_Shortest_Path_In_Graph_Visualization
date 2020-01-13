@@ -27,7 +27,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization.IO
         //Get the data for nodes and links from GraphDto and add them to the new graph than set the source and destination if any
         private static void GetGraphFromDto(GraphDto graphDto, out IGraph graph)
         {
-            graph = new Graph(graphDto.Nodes.Count);
+            graph = new Graph(graphDto.Nodes.Count + 1);
 
             foreach (NodeDto nodeDto in graphDto.Nodes)
             {

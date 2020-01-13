@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using TU_Shortest_Path_In_Graph_Vizualisation.Models.Contracts;
 
@@ -200,10 +199,26 @@ namespace TU_Shortest_Path_In_Graph_Vizualisation.Models
             this.DestinationIsVisited = this.Destination.IsVisited;
         }
 
-        //Take the node with the shortest distance from source that is not visited and set it sa current node 
-        public void Step6()
+        //Take the node with the shortest distance from source that is not visited and set it as current node. 
+        //Return false if no node is taken otherwise return true.
+        public bool Step6()
         {
-            this.DijkstraCurrentNode = this.Nodes.Where(n => !n.IsVisited).OrderBy(n => n.DistanceFromSource).First();
+            int distanceFromSource = int.MaxValue;
+
+            bool anyNodeIsTaken = false;
+
+            foreach (INode node in this.Nodes)
+            {
+                if(!node.IsVisited && distanceFromSource > node.DistanceFromSource)
+                {
+                    distanceFromSource = node.DistanceFromSource;
+                    this.DijkstraCurrentNode = node;
+
+                    anyNodeIsTaken = true;
+                }
+            }
+
+            return anyNodeIsTaken;
         }
     }
 }

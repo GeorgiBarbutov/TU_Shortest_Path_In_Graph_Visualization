@@ -11,6 +11,6 @@
         void Step3();
         void Step4();
         void Step5();
-        void Step6();
+        bool Step6();
     }
 }
