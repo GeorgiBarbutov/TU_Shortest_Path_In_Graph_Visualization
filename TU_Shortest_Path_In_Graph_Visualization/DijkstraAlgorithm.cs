@@ -37,7 +37,7 @@ namespace TU_Shortest_Path_In_Graph_Visualization
             this.graph.Step0();
         }
 
-        //Draws all the links, then draws all the noodes, then draws tenative values if the current step is one or more. 
+        //Draws all the links, then draws all the nodes, then draws tenative values if the current step is one or more. 
         public void DrawPanel(Graphics graphics)
         {
             foreach (INode node in this.graph.Nodes.OrderBy(n => n.Layer))
