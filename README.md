@@ -12,8 +12,6 @@
 4.	TU_Shortest_Path_In_Graph_Visualization.IO – Съдържащ логиката записване в и четене от Xml файл на граф.
 5.	TU_Shortest_Path_In_Graph_Visualization.Dijkstra – Съдържащ логиката на самия алгоритъм
 
-Функционалност:
-
 	Приложението подържа следната функционалност:
   
 •	Добавяне на връх.
