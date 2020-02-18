@@ -88,13 +88,13 @@ namespace TU_Shortest_Path_In_Graph_Visualization
         //Step2(); //O(1)
         //while (true) //O(n)
         //{
-        //    Step3(); O(n)
-        //    Step4(); O(1)
+        //    Step3(); O(l + n)
+        //    Step4(); O(n)
         //    Step5(); // true -> break; false -> step6(); O(1)
         //    Step6(); //Step 6 -> Step 3  O(n)
         //}
         //Step7(); isReachable - true -> find path O(n), false -> print it's unreachable
-        //Total time complexity -> O(n^2), Total space complexity O(n^2) because we have a list of nodes each of whom has a list of links.
+        //Total time complexity -> O(n^2 + nl), Total space complexity O(n*l) because we have a list of nodes each of whom has a list of links.
         private void NextStepButton_Click(object sender, System.EventArgs e)
         {
             if (!this.isFinished)
